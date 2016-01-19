@@ -6,6 +6,11 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('charts', function() {
+    this.route('chart', {
+      path: ':slug'
+    });
+  });
 });
 
 export default Router;

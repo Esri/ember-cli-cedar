@@ -1,0 +1,1 @@
+export { default } from 'ember-cli-cedar/components/cedar-chart/component';
