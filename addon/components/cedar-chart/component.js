@@ -3,7 +3,8 @@ import layout from './template';
 
 export default Ember.Component.extend({
   layout: layout,
-  settings: null,
+  specification: null,
+  options: null,
 
   didInsertElement() {
 
