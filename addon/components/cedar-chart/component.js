@@ -1,3 +1,4 @@
+/* globals Cedar:false */
 import Ember from 'ember';
 import layout from './template';
 
@@ -6,19 +7,36 @@ export default Ember.Component.extend({
   specification: null,
   options: null,
 
-  didInsertElement() {
+  // if spec and options attr are valid
+  // show chart at elememt
+  _showChart() {
+    const specification = this.get('specification');
+    if (!specification) {
+      return;
+    }
+    const options = this.get('options');
+    if (!options) {
+      return;
+    }
 
-    // grab the incoming model
-    let specification = this.get('specification');
-    let options = this.get('options');
+    // generate element id
     options.elementId = '#cedar-chart-' + options.id;
-
-    // TODO: check for token and append to Query object if needed
 
     // create the chart
     var chart = new Cedar(specification);
 
     // attach the chart to the DOM
     chart.show(options);
-  }
+  },
+
+  // if attr set, show the chart once inserted in the DOM
+  didInsertElement() {
+    this._showChart();
+  },
+
+  // update chart when spec changes
+  specificationDidChange: Ember.observer('specification', function(/*sender, propKey*/) {
+    this._showChart();
+  })
+
 });
