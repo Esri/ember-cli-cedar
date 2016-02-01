@@ -13,11 +13,6 @@ export default Ember.Route.extend({
       reverseXY = true;
     }
     let specification;
-    let options = {
-      autolabels: true,
-      renderer: 'svg',
-      id: 'chart1'
-    };
     let title = `${params.slug} Example`;
     if (supportedTypes.indexOf(slug) > -1) {
       specification = {
@@ -55,11 +50,10 @@ export default Ember.Route.extend({
         specification.dataset.mappings.y = tempX;
       }
     } else {
-      title = `Type "${params.slug}" Not Suppoprted.`
+      title = `Type "${params.slug}" Not Suppoprted.`;
     }
     return {
       specification: specification,
-      options: options,
       title: title
     };
   }

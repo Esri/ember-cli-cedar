@@ -37,6 +37,9 @@ export default Ember.Component.extend({
   // update chart when spec changes
   specificationDidChange: Ember.observer('specification', function(/*sender, propKey*/) {
     this._showChart();
-  })
+  }),
 
+  optionsDidChange: Ember.observer('options', function(/*sender, propKey*/) {
+    this._showChart();
+  })
 });
