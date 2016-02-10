@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const supportedTypes = ['bar', 'bar-horizontal', 'bar-override'];
+const supportedTypes = ['bar', 'bar-horizontal'];
 
 export default Ember.Route.extend({
 
