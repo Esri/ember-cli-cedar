@@ -1,6 +1,0 @@
-{
-  "predef": ["Cedar"],
-  "globals": {
-    "Cedar": false
-  }
-}

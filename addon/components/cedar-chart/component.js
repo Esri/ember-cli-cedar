@@ -46,5 +46,10 @@ export default Ember.Component.extend({
 
   optionsDidChange: Ember.observer('options', function(/*sender, propKey*/) {
     this._showChart();
+  }),
+
+  overrideDidChange: Ember.observer('override', function(/*sender, propKey*/) {
+    this._showChart();
   })
 });
+

@@ -11,6 +11,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Support
 
+## v0.2.0
+
+### Added
+- chart component applies [override](http://esri.github.io/cedar/examples/style-overrides.html) when drawing chart if `override` property is specified
+- chart component listens for changes to new `override` property and re-draws chart
+
+### Changed
+- removed support for `options.elementId` and getting id from 
+
+### Support
+- added route to show chart overrides
+
 ## v0.1.3
 
 ### Added
