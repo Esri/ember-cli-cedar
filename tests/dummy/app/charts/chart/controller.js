@@ -1,10 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  queryParams: ['styleOverride'],
+  styleOverride: null,
+
   chartOptions: {
     autolabels: true,
-    renderer: 'svg',
-    id: 'chart1'
+    renderer: 'svg'
   },
   renderers: [
     'canvas',
@@ -17,8 +19,7 @@ export default Ember.Controller.extend({
     selectRenderer: function(newRenderer) {
       this.set('chartOptions', {
         autolabels: true,
-        renderer: newRenderer,
-        id: 'chart1'
+        renderer: newRenderer
       });
     }
   }

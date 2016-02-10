@@ -19,14 +19,19 @@ export default Ember.Component.extend({
       return;
     }
 
-    // generate element id
-    options.elementId = '#cedar-chart-' + options.id;
+    // use elementId from component to render Cedar directly into div
+    options.elementId = '#' + this.elementId;
 
     // create the chart
     var chart = new Cedar(specification);
 
     // attach the chart to the DOM
     chart.show(options);
+
+    // look for overrides & apply
+    if (options.override) {
+      chart.override = options.override;
+    }
   },
 
   // if attr set, show the chart once inserted in the DOM

@@ -3,6 +3,9 @@ import Ember from 'ember';
 const supportedTypes = ['bar', 'bar-horizontal'];
 
 export default Ember.Route.extend({
+
+  queryParams: {'styleOverride': {refreshModel: true}},
+
   model: function(params) {
     /* jshint quotmark: false */
     const slug = params.slug;
@@ -48,6 +51,19 @@ export default Ember.Route.extend({
         let tempX = specification.dataset.mappings.x;
         specification.dataset.mappings.x = specification.dataset.mappings.y;
         specification.dataset.mappings.y = tempX;
+      }
+
+      if (params.styleOverride === 'yes') {
+        specification.override = {
+          marks: [
+            {properties: 
+              {
+                hover: {fill: {value: "#17a086"}},
+                update: {fill: {value: "#7fcdbb"}}
+              }
+            }
+          ]
+        };
       }
     } else {
       title = `Type "${params.slug}" Not Suppoprted.`;
