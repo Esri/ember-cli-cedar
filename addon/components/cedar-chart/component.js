@@ -4,20 +4,24 @@ import layout from './template';
 
 export default Ember.Component.extend({
   layout: layout,
-  specification: null,
-  options: null,
+  attributeBindings: ['style'],
 
-  // if spec and options attr are valid
+  // if in DOM and spec and options are valid
   // show chart at elememt
   _showChart() {
+    if (this.isDestroyed || this.isDestroying) {
+      return;
+    }
     const specification = this.get('specification');
     if (!specification) {
       return;
     }
     const options = this.get('options');
+    // TODO: default options instead of return
     if (!options) {
       return;
     }
+    const override = this.get('override') || options.override;
 
     // use elementId from component to render Cedar directly into div
     options.elementId = '#' + this.elementId;
@@ -29,27 +33,23 @@ export default Ember.Component.extend({
     chart.show(options);
 
     // look for overrides & apply
-    if (options.override) {
-      chart.override = options.override;
+    if (override) {
+      chart.override = override;
     }
   },
 
-  // if attr set, show the chart once inserted in the DOM
-  didInsertElement() {
-    this._showChart();
-  },
-
   // update chart when spec changes
-  specificationDidChange: Ember.observer('specification', function(/*sender, propKey*/) {
-    this._showChart();
-  }),
+  specificationDidChange: Ember.on('init', Ember.observer('specification', function(/*sender, propKey*/) {
+    Ember.run.scheduleOnce('afterRender', this, '_showChart');
+  })),
 
-  optionsDidChange: Ember.observer('options', function(/*sender, propKey*/) {
-    this._showChart();
-  }),
+  // update chart when options changes
+  optionsDidChange: Ember.on('init', Ember.observer('options', function(/*sender, propKey*/) {
+    Ember.run.scheduleOnce('afterRender', this, '_showChart');
+  })),
 
-  overrideDidChange: Ember.observer('override', function(/*sender, propKey*/) {
-    this._showChart();
-  })
+  // update chart when overrides changes
+  overrideDidChange: Ember.on('init', Ember.observer('override', function(/*sender, propKey*/) {
+    Ember.run.scheduleOnce('afterRender', this, '_showChart');
+  }))
 });
-
