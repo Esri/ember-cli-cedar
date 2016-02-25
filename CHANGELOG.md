@@ -11,6 +11,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Support
 
+## v0.2.2
+
+### Changed
+- if no show options passed, default to an empty object (instead of bailing)
+- if type is pie chart, don't allow autolabels option
+
+### Support
+- added pie chart example to dummy app
+
+## v0.2.1
+
+### Changed
+- observers on specification, options, and override properties use run loop to schedule chart renderring only once all databinding operations have completed.
+
 ## v0.2.0
 
 ### Added

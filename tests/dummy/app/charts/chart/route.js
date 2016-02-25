@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const supportedTypes = ['bar', 'bar-horizontal'];
+const supportedTypes = ['bar', 'bar-horizontal', 'pie'];
 
 export default Ember.Route.extend({
 
@@ -11,7 +11,7 @@ export default Ember.Route.extend({
     const slug = params.slug;
     let groupByField = 'Type';
     let reverseXY = false;
-    if (params.slug === 'bar-horizontal') {
+    if (slug === 'bar-horizontal') {
       groupByField = 'Zip';
       reverseXY = true;
     }
@@ -52,14 +52,25 @@ export default Ember.Route.extend({
         specification.dataset.mappings.x = specification.dataset.mappings.y;
         specification.dataset.mappings.y = tempX;
       }
+      // pie chart
+      if (slug === 'pie') {
+        // add radius
+        specification.dataset.mappings.radius = 240;
+        // replace x w/ label
+        delete specification.dataset.mappings.x;
+        specification.dataset.mappings.label = {
+          field: groupByField,
+          label: groupByField
+        };
+      }
 
       if (params.styleOverride === 'yes') {
         specification.override = {
           marks: [
-            {properties: 
+            {properties:
               {
-                hover: {fill: {value: "#17a086"}},
-                update: {fill: {value: "#7fcdbb"}}
+                hover: {fill: {value: '#17a086'}},
+                update: {fill: {value: '#7fcdbb'}}
               }
             }
           ]

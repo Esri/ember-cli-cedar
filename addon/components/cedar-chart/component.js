@@ -16,15 +16,17 @@ export default Ember.Component.extend({
     if (!specification) {
       return;
     }
-    const options = this.get('options');
-    // TODO: default options instead of return
-    if (!options) {
-      return;
-    }
+    const options = this.get('options') || {};
     const override = this.get('override') || options.override;
 
     // use elementId from component to render Cedar directly into div
     options.elementId = '#' + this.elementId;
+
+    // autolabels will throw an error on pie charts
+    // see https://github.com/Esri/cedar/issues/173
+    if (specification.type === 'pie') {
+      options.autolabels = false;
+    }
 
     // create the chart
     var chart = new Cedar(specification);

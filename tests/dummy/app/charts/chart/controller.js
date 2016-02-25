@@ -4,23 +4,23 @@ export default Ember.Controller.extend({
   queryParams: ['styleOverride'],
   styleOverride: null,
 
-  chartOptions: {
-    autolabels: true,
-    renderer: 'svg'
-  },
   renderers: [
     'canvas',
     'svg'
   ],
-  selectedRenderer: Ember.computed('chartOptions', function() {
-    return this.get('chartOptions.renderer');
+
+  selectedRenderer: 'svg',
+
+  chartOptions: Ember.computed('selectedRenderer', function() {
+    return {
+      autolabels: true,
+      renderer: this.get('selectedRenderer')
+    };
   }),
+
   actions: {
     selectRenderer: function(newRenderer) {
-      this.set('chartOptions', {
-        autolabels: true,
-        renderer: newRenderer
-      });
+      this.set('selectedRenderer', newRenderer);
     }
   }
 });
