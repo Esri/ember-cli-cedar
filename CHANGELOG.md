@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
-
+- update to use latest version of Cedar
 ### Support
 
 ## v0.2.2
@@ -32,7 +32,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - chart component listens for changes to new `override` property and re-draws chart
 
 ### Changed
-- removed support for `options.elementId` and getting id from 
+- removed support for `options.elementId` and getting id from
 
 ### Support
 - added route to show chart overrides

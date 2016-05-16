@@ -9,26 +9,26 @@ module.exports = {
 
     app.import(app.bowerDirectory + '/d3/d3.js');
     app.import(app.bowerDirectory + '/vega/vega.js');
-    app.import(app.bowerDirectory + '/cedar/src/cedar.js');
-    app.import(app.bowerDirectory + '/cedar/src/charts/bar-horizontal.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/cedar.js');
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/bar-horizontal.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/bar.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/bar.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/bubble.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/bubble.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/pie.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/pie.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/scatter.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/scatter.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/sparkline.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/sparkline.json', {
       destDir: 'assets/charts'
     });
-    app.import(app.bowerDirectory + '/cedar/src/charts/time.json', {
+    app.import(app.bowerDirectory + '/arcgis-cedar/dist/charts/time.json', {
       destDir: 'assets/charts'
     });
   }
