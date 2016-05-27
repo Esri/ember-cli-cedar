@@ -4,7 +4,6 @@ import layout from './template';
 
 export default Ember.Component.extend({
   layout: layout,
-  attributeBindings: ['style'],
 
   // if in DOM and spec and options are valid
   // show chart at elememt
