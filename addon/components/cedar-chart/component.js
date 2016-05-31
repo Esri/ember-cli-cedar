@@ -41,6 +41,6 @@ export default Ember.Component.extend({
 
   // show/update chart whenever attributes change
   didReceiveAttrs() {
-    this._showChart();
+    Ember.run.schedule('afterRender', this, '_showChart');
   }
 });
