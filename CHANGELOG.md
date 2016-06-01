@@ -10,9 +10,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - update to use latest version of Cedar
 - removes deprecated (and potentially unsafe) binding to cedar-chart style attribute
+- use didReceiveAttrs() instead of observers to listen to changes to chart spec/options
 
 ### Support
 - added content security policies in dummy app b/c Cedar uses inline styles and remote services
+- include chart JSON specs in `treeForPublic` instead of multiple calls to app.import()
 
 ## v0.2.2
 

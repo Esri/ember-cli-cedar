@@ -39,18 +39,8 @@ export default Ember.Component.extend({
     }
   },
 
-  // update chart when spec changes
-  specificationDidChange: Ember.on('init', Ember.observer('specification', function(/*sender, propKey*/) {
-    Ember.run.scheduleOnce('afterRender', this, '_showChart');
-  })),
-
-  // update chart when options changes
-  optionsDidChange: Ember.on('init', Ember.observer('options', function(/*sender, propKey*/) {
-    Ember.run.scheduleOnce('afterRender', this, '_showChart');
-  })),
-
-  // update chart when overrides changes
-  overrideDidChange: Ember.on('init', Ember.observer('override', function(/*sender, propKey*/) {
-    Ember.run.scheduleOnce('afterRender', this, '_showChart');
-  }))
+  // show/update chart whenever attributes change
+  didReceiveAttrs() {
+    Ember.run.schedule('afterRender', this, '_showChart');
+  }
 });
