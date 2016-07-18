@@ -1,0 +1,12 @@
+{{outlet}}
+
+
+----------
+<div>
+  <form {{action "renderJSON" type on="submit"}}>
+    {{input type="text" class="render-json-field" placeholder="New JSON" value=type}}
+    <button type="submit" class="btn btn-primary btn-sm">Render</button>
+  </form>
+  {{type}}
+  <!-- {{"charts.chart" "type"}} -->
+</div>

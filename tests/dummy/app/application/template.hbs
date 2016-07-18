@@ -1,16 +1,8 @@
 <h2 id="title">Ember Addon for Cedar</h2>
 <div>Charts: {{link-to "Bar" "charts.chart" "bar" (query-params styleOverride=null) }} | {{link-to "Horizontal Bar" "charts.chart" "bar-horizontal"}} |
 {{link-to "Pie" "charts.chart" "pie" (query-params styleOverride=null) }} | {{link-to "Bar with Style Override" "charts.chart" "bar" (query-params styleOverride='yes') }} |
-{{link-to "Test Grounds" "charts.chart" "bar"(query-params styleOverride=null)}} </div>
+{{link-to "Test Grounds" "charts.playground" "bar"(query-params styleOverride=null)}} </div>
 {{outlet}}
 
 <br>
 <div>
-  ----------
-  <form {{action "renderJSON" type on="submit"}}>
-    {{input type="text" class="new-json" placeholder="New JSON" value=type}}
-    <button type="submit" class="btn btn-primary btn-sm">Render</button>
-  </form>
-  {{type}}
-  <!-- {{"charts.chart" "type"}} -->
-</div>
