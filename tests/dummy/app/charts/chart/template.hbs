@@ -1,5 +1,9 @@
 <h3>{{model.title}}</h3>
 {{cedar-chart specification=model.specification options=chartOptions}}
+{{log "model.specification:" model.specification}}
+
+<br>
+
 <h4>Options</h4>
 <p>Renderer: <select onchange={{action "selectRenderer" value="target.value"}}>
 {{#each renderers as |renderer|}}
@@ -8,5 +12,3 @@
 </select></p>
 
 <!-- template that is pulling in library and then showing the specified options. turns json spec passed in as property into the tag and rendering a chart -->
-
-{{log model.specification}}

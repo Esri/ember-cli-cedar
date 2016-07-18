@@ -1,12 +1,14 @@
-{{outlet}}
+<h3>{{model.specification.type}}</h3>
 
+{{log "model:" model}}
+{{log "specification0:" model.specification}}
 
-----------
 <div>
   <form {{action "renderJSON" type on="submit"}}>
     {{input type="text" class="render-json-field" placeholder="New JSON" value=type}}
     <button type="submit" class="btn btn-primary btn-sm">Render</button>
   </form>
   {{type}}
-  <!-- {{"charts.chart" "type"}} -->
 </div>
+
+{{cedar-chart specification=model.specification}}

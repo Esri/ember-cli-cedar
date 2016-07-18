@@ -27,10 +27,10 @@ export default Ember.Component.extend({
       options.autolabels = false;
     }
 
-    console.log("specification:", specification);
+    console.log("specificationComponent:", specification);
     // create the chart
     var chart = new Cedar(specification);
-    console.log("chart:", chart);
+    console.log("chartComponent:", chart);
 
     // attach the chart to the DOM
     chart.show(options);

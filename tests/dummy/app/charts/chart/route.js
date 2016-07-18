@@ -9,7 +9,6 @@ export default Ember.Route.extend({
   model: function(params) {
     /* jshint quotmark: false */
     const slug = params.slug;
-    console.log(params);
     let groupByField = 'Type';
     let reverseXY = false;
     if (slug === 'bar-horizontal') {
@@ -84,13 +83,5 @@ export default Ember.Route.extend({
       specification: specification,
       title: title
     };
-  },
-  actions: {
-    renderJSON: function (type) {
-      let params = JSON.parse(type);
-      console.log(params);
-      console.log(this.model(params, JSON));
-      this.model(params);
-    }
-  },
+  }
 });
