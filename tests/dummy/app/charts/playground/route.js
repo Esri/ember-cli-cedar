@@ -153,7 +153,7 @@ export default Ember.Route.extend({
         }
       }
     };
-    console.log("SPECIFICATION:", specification);
+    console.log("SPECIFICATION:", specification4);
     return {
       specification: specification4
     };
