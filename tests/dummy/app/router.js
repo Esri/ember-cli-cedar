@@ -12,7 +12,6 @@ Router.map(function() {
     });
     this.route('playground');
   });
-  // this.route('charts-playground', {path: '/components/charts-playground'});
 });
 
 export default Router;
