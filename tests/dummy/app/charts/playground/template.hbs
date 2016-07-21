@@ -1,15 +1,1 @@
-<h3>{{model.specification.type}}</h3>
-
-{{log "model0:" model}}
-{{log "specification0:" model.specification}}
-
-<div>
-  <form {{action "renderJSON" type on="submit"}}>
-    {{input type="text" class="render-json-field" placeholder="New JSON" value=specificationString}}
-    <button type="submit" class="btn btn-primary btn-sm">Render</button>
-  </form>
-  <br>
-  {{specificationString}}
-</div>
-<br>
-{{cedar-chart specification=model.specification}}
+{{charts-playground model=model}}

@@ -1,3 +1,17 @@
-test
+<h3>{{model.specification.type}}</h3>
 
-{{yield}}
+{{log "model0:" model}}
+{{log "specification0:" model.specification}}
+
+<div>
+  <h5>JSON input field</h5>
+  <form {{action "renderJSON" type on="submit"}}>
+    {{input type="text" class="render-json-field" placeholder="New JSON" value=specificationString}}
+    <button type="submit" class="btn btn-primary btn-sm">Render</button>
+  </form>
+  <br>
+  {{!specificationString}}
+</div>
+
+<h5>JSON rendered as Cedar chart</h5>
+{{cedar-chart specification=model.specification}}
