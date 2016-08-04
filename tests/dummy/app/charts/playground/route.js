@@ -7,7 +7,7 @@ export default Ember.Route.extend({
     let specification1 = {
       "type": "bar",
       "dataset": {
-        "url": "http://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Education_WebMercator/MapServer/5",
+        "url": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Education_WebMercator/MapServer/5",
         "query": {
           "groupByFieldsForStatistics": "ZIP_CODE",
           "outStatistics": [{

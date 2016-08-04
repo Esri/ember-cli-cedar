@@ -5,9 +5,13 @@ import layout from './template';
 export default Ember.Component.extend({
   layout: layout,
 
+  invalidSpecMessage: 'Invalid Cedar Specification',
+
   // if in DOM and spec and options are valid
   // show chart at elememt
   _showChart() {
+    debugger;
+    try {
     if (this.isDestroyed || this.isDestroying) {
       return;
     }
@@ -37,7 +41,11 @@ export default Ember.Component.extend({
     if (override) {
       chart.override = override;
     }
-  },
+  }
+  catch(err) {
+    this.$().text(this.get('invalidSpecMessage'));
+  }
+},
 
   // show/update chart whenever attributes change
   didReceiveAttrs() {
