@@ -5,7 +5,7 @@ import layout from './template';
 export default Ember.Component.extend({
   layout: layout,
 
-  invalidSpecMessage: 'Invalid Cedar Specification cli-cedar',
+  invalidSpecMessage: 'Invalid Cedar Specification',
 
   // if in DOM and spec and options are valid
   // show chart at elememt
