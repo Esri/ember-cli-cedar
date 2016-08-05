@@ -10,6 +10,7 @@ Router.map(function() {
     this.route('chart', {
       path: ':slug'
     });
+    this.route('playground');
   });
 });
 
