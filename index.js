@@ -19,7 +19,7 @@ module.exports = {
   // include chart JSON files
   treeForPublic: function(publicNode) {
     var node = this._super.treeForPublic(publicNode);
-    var chartFiles = new Funnel(path.join(__dirname, 'bower_components', 'arcgis-cedar/dist/charts/'), {
+    var chartFiles = new Funnel(path.join(this.project.root, 'bower_components', 'arcgis-cedar/dist/charts/'), {
       include: ['**/*.json'],
       destDir: '/assets/charts'
     });
