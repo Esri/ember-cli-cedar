@@ -3,9 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.2.6
+### Changed
+- update cedar dependency to v0.4.4 for better error handling
+
 ## v0.2.5
 ### Changed
-- update to cedar v0.4.4 for better error handling
+- update dummy app to cedar v0.4.4 for better error handling
 
 ## v0.2.4
 
