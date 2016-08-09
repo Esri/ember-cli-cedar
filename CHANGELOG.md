@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## upcoming
+## v0.2.5
+### Changed
+- update to cedar v0.4.4 for better error handling
 
 ## v0.2.4
 
