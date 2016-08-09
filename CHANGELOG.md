@@ -5,7 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## upcoming
 
-### Added
+## v0.2.4
+
+## Support
+- fix failing build when used outside of dummy app
+
+## v0.2.3
 
 ### Changed
 - update to use latest version of Cedar
