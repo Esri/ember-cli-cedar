@@ -19,6 +19,7 @@ export default Ember.Component.extend({
         return;
       }
       // Copy spec so that we don't mutate this.get('specification')
+      // Re-evaluate once we resolve https://github.com/Esri/cedar/issues/211 in cedar
       const specification = Ember.$.extend(true, {}, spec);
       const options = this.get('options') || {};
       const override = this.get('override') || options.override;
