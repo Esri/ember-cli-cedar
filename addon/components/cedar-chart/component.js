@@ -14,10 +14,12 @@ export default Ember.Component.extend({
       if (this.isDestroyed || this.isDestroying) {
         return;
       }
-      const specification = this.get('specification');
-      if (!specification) {
+      const spec = this.get('specification');
+      if (!spec) {
         return;
       }
+      // Copy spec so that we don't mutate this.get('specification')
+      const specification = Ember.$.extend(true, {}, spec);
       const options = this.get('options') || {};
       const override = this.get('override') || options.override;
 
