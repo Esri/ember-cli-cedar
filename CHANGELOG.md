@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
-## v0.2.7
+## v0.2.8
 ### Changed
 - update cedar dependency to v0.6.1
 - copy Specification so as to prevent cedar from making mutations upstream
