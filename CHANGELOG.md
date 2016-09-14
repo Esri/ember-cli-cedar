@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## v0.2.9
+### Changed
+- update cedar dependency to v0.6.1 for real this time
+
 ## v0.2.8
 ### Changed
 - update cedar dependency to v0.6.1
