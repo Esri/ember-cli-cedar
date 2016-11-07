@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## v0.2.10
+### Changed
+- update to Ember v2.8
+
 ## v0.2.9
 ### Changed
 - update cedar dependency to v0.6.1 for real this time
