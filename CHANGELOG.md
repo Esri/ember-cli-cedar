@@ -4,8 +4,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.2.12
-### Changed
+### Fixed
 - add missing broccoli dependencies for real
+### Support
+- add basic usage to README
 
 ## v0.2.11
 ### Changed
