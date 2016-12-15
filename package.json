@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-cedar",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Ember addon for Esri Cedar charting library",
   "directories": {
     "doc": "doc",
@@ -22,6 +22,8 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "broccoli-funnel": "^1.1.0",
+    "broccoli-merge-trees": "^1.2.1",
     "ember-ajax": "^2.0.1",
     "ember-cli": "2.8.0",
     "ember-cli-app-version": "^1.0.0",
@@ -45,8 +47,6 @@
     "ember-addon"
   ],
   "dependencies": {
-    "broccoli-funnel": "^1.1.0",
-    "broccoli-merge-trees": "^1.2.1",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-htmlbars": "^1.0.3"
   },
