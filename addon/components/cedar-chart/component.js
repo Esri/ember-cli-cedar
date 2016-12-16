@@ -34,14 +34,17 @@ export default Ember.Component.extend({
       }
 
       // create the chart
-      var chart = new Cedar(specification);
+      this.chart = new Cedar(specification);
+      if (typeof this.onClick === 'function') {
+        this.chart.on('click', this.onClick);
+      }
 
       // attach the chart to the DOM
-      chart.show(options);
+      this.chart.show(options);
 
       // look for overrides & apply
       if (override) {
-        chart.override = override;
+        this.chart.override = override;
       }
     }
     catch(err) {
@@ -52,5 +55,10 @@ export default Ember.Component.extend({
   // show/update chart whenever attributes change
   didReceiveAttrs() {
     Ember.run.schedule('afterRender', this, '_showChart');
+  },
+
+  willDestroyElement () {
+    // remove any event handlers
+    this.chart.off();
   }
 });

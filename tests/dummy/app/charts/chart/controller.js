@@ -21,6 +21,9 @@ export default Ember.Controller.extend({
   actions: {
     selectRenderer: function(newRenderer) {
       this.set('selectedRenderer', newRenderer);
+    },
+    onClick (e, data) {
+      console.log(data);
     }
   }
 });

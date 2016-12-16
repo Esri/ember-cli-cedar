@@ -1,5 +1,5 @@
 <h3>{{model.title}}</h3>
-{{cedar-chart specification=model.specification options=chartOptions}}
+{{cedar-chart specification=model.specification options=chartOptions onClick=(action 'onClick') }}
 <h4>Options</h4>
 <p>Renderer: <select onchange={{action "selectRenderer" value="target.value"}}>
 {{#each renderers as |renderer|}}
