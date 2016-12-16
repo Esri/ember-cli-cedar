@@ -11,6 +11,8 @@ export default Ember.Controller.extend({
 
   selectedRenderer: 'svg',
 
+  shouldLogEvents: false,
+
   chartOptions: Ember.computed('selectedRenderer', function() {
     return {
       autolabels: true,
@@ -21,6 +23,11 @@ export default Ember.Controller.extend({
   actions: {
     selectRenderer: function(newRenderer) {
       this.set('selectedRenderer', newRenderer);
+    },
+    logEvent (e, data) {
+      if (this.shouldLogEvents) {
+        console.log(e ? e.type : 'No event object passed', data);
+      }
     }
   }
 });

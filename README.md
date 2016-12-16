@@ -6,7 +6,7 @@ Ember addon for Esri's [Cedar](https://github.com/esri/cedar) charting library.
 This addon exposes a component you can use to declaratively add a Cedar chart to your ember application:
 
 ```hbs
-{{cedar-chart specification=model.specification overrides=model.overrides options=model.options}}
+{{cedar-chart specification=model.specification overrides=model.overrides options=model.options onClick=(action 'onChartClick')}}
 ```
 
 See the [Cedar documentation](http://esri.github.io/cedar/) for details on how to construct a chart specification and other chart parameters.
