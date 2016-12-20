@@ -1,8 +1,20 @@
 <h3>{{model.title}}</h3>
-{{cedar-chart specification=model.specification options=chartOptions}}
+{{cedar-chart
+  specification=model.specification
+  options=chartOptions
+  onClick=(action 'logEvent')
+  onMouseover=(action 'logEvent')
+  onMouseout=(action 'logEvent')
+  onUpdateStart=(action 'logEvent')
+  onUpdateEnd=(action 'logEvent')
+}}
 <h4>Options</h4>
 <p>Renderer: <select onchange={{action "selectRenderer" value="target.value"}}>
 {{#each renderers as |renderer|}}
   <option value={{renderer}} selected={{eq renderer selectedRenderer}}>{{renderer}}</option>
 {{/each}}
 </select></p>
+<h4>Events</h4>
+<p>{{input type="checkbox" name="isAdmin" checked=shouldLogEvents}}
+  Log events?</p>
+<p>Check the above and open your browser's console window to see <a href="http://esri.github.io/cedar/api/on.html" target="_blank">events</a> logged as you interact with the chart.</p>

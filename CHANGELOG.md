@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- add attributes for Cedar event handlers
+
 ## v0.2.12
 ### Fixed
 - add missing broccoli dependencies for real
