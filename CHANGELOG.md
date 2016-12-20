@@ -3,9 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## v0.3.0
 ### Added
 - add attributes for Cedar event handlers
+### Changed
+- bump cedar version to 0.7.0
 
 ## v0.2.12
 ### Fixed
