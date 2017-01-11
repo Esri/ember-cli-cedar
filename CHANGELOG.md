@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- fix vega parse error by bumping cedar version to 0.8.2
+
 ## v0.4.0
 ### Added
 - add attribute for Cedar data transform function
