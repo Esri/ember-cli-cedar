@@ -13,6 +13,7 @@ Router.map(function() {
     });
     this.route('playground');
   });
+  this.route('transform');
 });
 
 export default Router;

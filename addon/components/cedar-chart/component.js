@@ -46,6 +46,9 @@ export default Ember.Component.extend({
         }
       });
 
+      // wire up data transform function if any
+      this.chart.transform = this.transform;
+
       // attach the chart to the DOM
       this.chart.show(options);
 
