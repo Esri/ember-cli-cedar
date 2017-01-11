@@ -3,8 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.4.0
+### Added
+- add attribute for Cedar data transform function
+### Changed
+- bump cedar version to 0.8.0
 
-## v0.3.0
+## v0.3.1
 ### Fixed
 - revert back to cedar 0.6.1 b/c 0.7.0 breaks this addon
 
