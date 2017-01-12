@@ -14,6 +14,7 @@ Router.map(function() {
     this.route('playground');
   });
   this.route('transform');
+  this.route('error-handling');
 });
 
 export default Router;

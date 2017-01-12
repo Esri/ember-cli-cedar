@@ -3,56 +3,93 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+
+### Added
+- added onError attribute for closure actions to handle errors
+
+### Changed
+- deprecated invalidSpecMessage in favor of onError
+- destroy chart before recreating and only run once in run loop
+
+### Support
+- added error handling route to dummy app
+- added bootstrap CSS to dummy app
+
 ## v0.4.1
+
 ### Fixed
 - fix vega parse error by bumping cedar version to 0.8.2
 
 ## v0.4.0
+
 ### Added
 - add attribute for Cedar data transform function
+
 ### Changed
 - bump cedar version to 0.8.0
 
+
 ## v0.3.1
+
 ### Fixed
 - revert back to cedar 0.6.1 b/c 0.7.0 breaks this addon
 
+
 ## v0.3.0
+
 ### Added
 - add attributes for Cedar event handlers
+
 ### Changed
 - bump cedar version to 0.7.0
 
+
 ## v0.2.12
+
 ### Fixed
 - add missing broccoli dependencies for real
+
 ### Support
 - add basic usage to README
 
+
 ## v0.2.11
+
 ### Changed
 - add missing broccoli dependencies
 
+
 ## v0.2.10
+
 ### Changed
 - update to Ember v2.8
 
+
 ## v0.2.9
+
 ### Changed
 - update cedar dependency to v0.6.1 for real this time
 
+
 ## v0.2.8
+
 ### Changed
 - update cedar dependency to v0.6.1
 - copy Specification so as to prevent cedar from making mutations upstream
 
+
 ## v0.2.6
+
 ### Changed
 - update cedar dependency to v0.4.4 for better error handling
 
+
 ## v0.2.5
+
 ### Changed
 - update dummy app to cedar v0.4.4 for better error handling
+
 
 ## v0.2.4
 

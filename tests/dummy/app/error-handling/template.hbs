@@ -1,0 +1,16 @@
+<h3>Handling Cedar Errors</h3>
+<p>Example of an error returned when fetching data:</p>
+{{cedar-chart
+  specification=modelInvalidUrl
+  options=options
+  onError=(action 'showError')
+}}
+<div class="alert alert-danger">{{errorMessage}}</div>
+<p>A chart component with invalid attributes returns a message like this:</p>
+{{cedar-chart
+  specification=invalidSpecifiction
+  invalidSpecMessage="invalidSpecMessage is no longer used and should show a deprecation"
+  onError=(action 'showError2')
+}}
+<div class="alert alert-danger">{{errorMessage2}}</div>
+<p>Also, check your console message, it should show a deprecation warning for <code>invalidSpecMessage</code>.</p>
