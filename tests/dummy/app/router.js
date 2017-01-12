@@ -11,8 +11,8 @@ Router.map(function() {
     this.route('chart', {
       path: ':slug'
     });
-    this.route('playground');
   });
+  this.route('playground');
   this.route('transform');
   this.route('error-handling');
 });

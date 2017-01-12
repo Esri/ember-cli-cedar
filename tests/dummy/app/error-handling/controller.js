@@ -1,18 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  options: {
-    width: 600,
-    height: 600,
-    autolabels: false
-  },
-  modelInvalidUrl: Ember.computed('model', function() {
-    // deep clone the model
-    const modelCopy = Ember.copy(this.get('model'), true);
-    modelCopy.dataset.url = 'thisisnotavalidurl';
-    return modelCopy;
+  invalidUrlDataset: Ember.computed('model.dataset', function() {
+    // deep clone the dataset
+    const datasetCopy = Ember.copy(this.get('model.dataset'), true);
+    datasetCopy.url = 'thisisnotavalidurl';
+    return datasetCopy;
   }),
-  invalidSpecifiction: {},
+  emptyDataset: {},
   actions: {
     showError (err) {
       this.set('errorMessage', err);

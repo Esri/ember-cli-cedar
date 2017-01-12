@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - add properties for all chart constructor options
 
+### Support
+- update dummy app to use constructor properties instead of specification
+
 ## v0.5.0
 
 ### Added

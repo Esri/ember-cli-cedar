@@ -1,11 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  options: {
-    width: 600,
-    height: 600,
-    autolabels: false
-  },
   actions: {
     transform (queryResult, dataset) {
       var features = queryResult.features;
