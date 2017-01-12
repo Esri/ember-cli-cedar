@@ -5,19 +5,22 @@ import layout from './template';
 export default Ember.Component.extend({
   layout: layout,
 
-  invalidSpecMessage: 'Invalid Cedar Specification',
-
-  // if in DOM and spec and options are valid
-  // show chart at elememt
+  // show chart at root DOM elememt of this component
   _showChart() {
+    if (this.isDestroyed || this.isDestroying) {
+      return;
+    }
+
+    // destroy existing chart if any
+    this._destroyChart();
+
+    // create and show the chart
     try {
-      if (this.isDestroyed || this.isDestroying) {
-        return;
-      }
       const spec = this.get('specification');
       if (!spec) {
         return;
       }
+
       // Copy spec so that we don't mutate this.get('specification')
       // Re-evaluate once we resolve https://github.com/Esri/cedar/issues/211 in cedar
       const specification = Ember.$.extend(true, {}, spec);
@@ -50,7 +53,12 @@ export default Ember.Component.extend({
       this.chart.transform = this.transform;
 
       // attach the chart to the DOM
-      this.chart.show(options);
+      this.chart.show(options, err => {
+        if (err) {
+          // an error occurred while fetching data
+          this._handleErr(err);
+        }
+      });
 
       // look for overrides & apply
       if (override) {
@@ -58,19 +66,42 @@ export default Ember.Component.extend({
       }
     }
     catch(err) {
-      this.$().text(this.get('invalidSpecMessage'));
+      // an error occurred while creating the cart
+      this._handleErr(err);
     }
   },
 
-  // show/update chart whenever attributes change
-  didReceiveAttrs() {
-    Ember.run.schedule('afterRender', this, '_showChart');
+  // remove any event handlers and destroy the chart if it exists
+  _destroyChart () {
+    if (this.chart) {
+      if (this.chart.off) {
+        this.chart.off();
+      }
+      delete this.chart;
+    }
+  },
+
+  // call error handling action or re-throw error
+  _handleErr (err) {
+    const onErrorAction= this.get('onError');
+    if (onErrorAction) {
+      onErrorAction(err);
+    } else {
+      throw(err);
+    }
+  },
+
+  didReceiveAttrs(e) {
+    // now we call an error handler instead of showing a static message
+    // when there are chart errors 
+    if (e.newAttrs.invalidSpecMessage) {
+      console.warn('DEPRECATION: Usage of `invalidSpecMessage` is deprecated, pass an action to `onError` instead.');
+    }
+    // re-create and show chart whenever attributes change
+    Ember.run.scheduleOnce('afterRender', this, '_showChart');
   },
 
   willDestroyElement () {
-    if (this.chart && this.chart.off) {
-      // remove any event handlers
-      this.chart.off();
-    }
+    this._destroyChart();
   }
 });
