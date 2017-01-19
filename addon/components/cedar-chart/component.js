@@ -19,9 +19,7 @@ export default Ember.Component.extend({
     // create and show the chart
     try {
       // get chart constructor options from properties and create the chart
-      // TODO: do we need to make a copy dataset in case cedar appends query to mappings?
-      // see https://github.com/Esri/cedar/issues/211
-      const props = this.getProperties('type', 'dataset', 'specification', 'tooltip', 'override', 'transform');
+      const props = this.getProperties('type', 'dataset', 'specification', 'tooltip', 'override', 'transform', 'timeout');
       this.chart = new Cedar(props);
 
       // wire up event handlers
