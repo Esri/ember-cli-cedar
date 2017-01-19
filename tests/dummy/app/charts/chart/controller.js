@@ -13,6 +13,8 @@ export default Ember.Controller.extend({
 
   shouldLogEvents: false,
 
+  eventLog: '',
+
   chartOptions: Ember.computed('selectedRenderer', function() {
     return {
       autolabels: true,
@@ -26,7 +28,8 @@ export default Ember.Controller.extend({
     },
     logEvent (e, data) {
       if (this.shouldLogEvents) {
-        console.log(e ? e.type : 'No event object passed', data);
+        const eventType = e ? e.type : 'No event object passed';
+        this.set('eventLog', this.get('eventLog') + `${eventType}: ${JSON.stringify(data)}\n`);
       }
     }
   }

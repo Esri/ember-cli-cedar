@@ -1,4 +1,7 @@
-.render-json-field {
-  width: 1000px;
-  height: 75px;
+textarea.render-json-field {
+  height: 425px;
+}
+
+textarea.event-log {
+  height: 300px
 }

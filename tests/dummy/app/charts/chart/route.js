@@ -15,57 +15,54 @@ export default Ember.Route.extend({
       groupByField = 'Zip';
       reverseXY = true;
     }
-    let specification;
+    let dataset, override;
     let title = `${params.slug} Example`;
+    const tooltip = {
+      "title": "{" + groupByField +"}",
+      "content": "{Number_of_SUM} Students in {" + groupByField + "}"
+    };
     if (supportedTypes.indexOf(slug) > -1) {
-      specification = {
-        "type": params.slug,
-        "dataset": {
-          "url": "https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
-          "query": {
-            "groupByFieldsForStatistics": groupByField,
-            "outStatistics": [{
-              "statisticType": "sum",
-              "onStatisticField": "Number_of",
-              "outStatisticFieldName": "Number_of_SUM"
-            }]
-          },
-          "mappings": {
-            "sort": "Number_of_SUM DESC",
-            "x": {
-              "field": groupByField,
-              "label": groupByField
-            },
-            "y": {
-              "field": "Number_of_SUM",
-              "label": "Total Students"
-            }
-          }
+      dataset = {
+        "url": "https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
+        "query": {
+          "groupByFieldsForStatistics": groupByField,
+          "outStatistics": [{
+            "statisticType": "sum",
+            "onStatisticField": "Number_of",
+            "outStatisticFieldName": "Number_of_SUM"
+          }]
         },
-        "tooltip": {
-          "title": "{" + groupByField +"}",
-          "content": "{Number_of_SUM} Students in {" + groupByField + "}"
+        "mappings": {
+          "sort": "Number_of_SUM DESC",
+          "x": {
+            "field": groupByField,
+            "label": groupByField
+          },
+          "y": {
+            "field": "Number_of_SUM",
+            "label": "Total Students"
+          }
         }
       };
       if (reverseXY) {
-        let tempX = specification.dataset.mappings.x;
-        specification.dataset.mappings.x = specification.dataset.mappings.y;
-        specification.dataset.mappings.y = tempX;
+        let tempX = dataset.mappings.x;
+        dataset.mappings.x = dataset.mappings.y;
+        dataset.mappings.y = tempX;
       }
       // pie chart
       if (slug === 'pie') {
         // add radius
-        specification.dataset.mappings.radius = 240;
+        dataset.mappings.radius = 240;
         // replace x w/ label
-        delete specification.dataset.mappings.x;
-        specification.dataset.mappings.label = {
+        delete dataset.mappings.x;
+        dataset.mappings.label = {
           field: groupByField,
           label: groupByField
         };
       }
 
       if (params.styleOverride === 'yes') {
-        specification.override = {
+        override = {
           marks: [
             {properties:
               {
@@ -80,8 +77,11 @@ export default Ember.Route.extend({
       title = `Type "${params.slug}" Not Suppoprted.`;
     }
     return {
-      specification: specification,
-      title: title
+      title: title,
+      type: slug,
+      dataset,
+      tooltip,
+      override
     };
   }
 });
