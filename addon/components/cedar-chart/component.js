@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     // create and show the chart
     try {
       // get chart constructor options from properties and create the chart
-      const props = this.getProperties('type', 'dataset', 'specification', 'tooltip', 'override', 'transform', 'timeout');
+      const props = this.getProperties('type', 'dataset', 'datasets', 'series', 'specification', 'tooltip', 'override', 'transform', 'timeout');
       this.chart = new Cedar(props);
 
       // wire up event handlers
@@ -109,6 +109,8 @@ export default Ember.Component.extend({
     // need to pull those out into own properties and show deprecation warning
     this._deprecate('type', 'type', 'specification');
     this._deprecate('dataset', 'dataset', 'specification');
+    this._deprecate('datasets', 'datasets', 'specification');
+    this._deprecate('series', 'series', 'specification');
     this._deprecate('tooltip', 'tooltip', 'specification');
     this._deprecate('timeout', 'timeout', 'specification');
     this._deprecate('override', 'override', 'specification');
