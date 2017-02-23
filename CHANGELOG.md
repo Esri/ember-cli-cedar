@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- Supports series and datasets, new properties for the new json specification
+
+### Changed
+- bump cedar version to 0.9.0
+
 ## v0.6.0
 ### Added
 - add properties for all chart constructor options

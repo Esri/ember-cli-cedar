@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     // create and show the chart
     try {
       // get chart constructor options from properties and create the chart
-      const props = this.getProperties('type', 'dataset', 'specification', 'tooltip', 'override', 'transform', 'timeout');
+      const props = this.getProperties('type', 'dataset', 'datasets', 'series', 'specification', 'tooltip', 'override', 'transform', 'timeout');
       this.chart = new Cedar(props);
 
       // wire up event handlers
