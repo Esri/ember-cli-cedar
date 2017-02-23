@@ -109,8 +109,6 @@ export default Ember.Component.extend({
     // need to pull those out into own properties and show deprecation warning
     this._deprecate('type', 'type', 'specification');
     this._deprecate('dataset', 'dataset', 'specification');
-    this._deprecate('datasets', 'datasets', 'specification');
-    this._deprecate('series', 'series', 'specification');
     this._deprecate('tooltip', 'tooltip', 'specification');
     this._deprecate('timeout', 'timeout', 'specification');
     this._deprecate('override', 'override', 'specification');
