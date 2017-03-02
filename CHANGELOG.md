@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## unreleased
+## v0.7.1
 ### Changed
 -Bump cedar version to 0.9.1 allowing tooltips to be generated for new json spec
 
