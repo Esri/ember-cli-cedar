@@ -1,12 +1,18 @@
 # Ember-cli-cedar
 
-Ember addon for Esri's [Cedar](https://github.com/esri/cedar) charting library.
+Ember addon for Esri's [Cedar](https://esri.github.io/cedar) charting library.
 
 ## Usage
 This addon exposes a component you can use to declaratively add a Cedar chart to your ember application:
 
 ```hbs
-{{cedar-chart specification=model.specification overrides=model.overrides options=model.options onClick=(action 'onChartClick')}}
+{{
+  cedar-chart
+  specification=model.specification
+  overrides=model.overrides
+  options=model.options
+  onClick=(action 'onChartClick')
+}}
 ```
 
 See the [Cedar documentation](http://esri.github.io/cedar/) for details on how to construct a chart specification and other chart parameters.
@@ -16,10 +22,6 @@ Run the following in any ember application:
 ```
 ember install ember-cli-cedar
 ```
-
-## Collaborating
-
-The rest of this README outlines the details of collaborating on this Ember addon.
 
 ### Installation
 
@@ -31,7 +33,7 @@ The rest of this README outlines the details of collaborating on this Ember addo
 
 You can test this addon in the dummy app with:
 
-* `ember server`
+* `npm start`
 * Visit your app at http://localhost:4200.
 
 NOTE: Windows users may need to specify an alternate livereload port like:
@@ -63,3 +65,25 @@ ember server
 * `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+### Contributing
+
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/Esri/contributing/blob/master/CONTRIBUTING.md).
+
+### License
+
+Copyright 2017 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+> http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
