@@ -6,12 +6,18 @@ Ember addon for Esri's [Cedar](https://esri.github.io/cedar) charting library.
 This addon exposes a component you can use to declaratively add a Cedar chart to your ember application:
 
 ```hbs
-{{
-  cedar-chart
+{{cedar-chart
+  type="bar"
+  datasets=model.datasets
+  series=model.series
   specification=model.specification
-  overrides=model.overrides
+  timeout=5000
   options=model.options
-  onClick=(action 'onChartClick')
+  override=model.override
+  onUpdateStart=(action 'onChartUpdateStart')
+  onUpdateEnd=(action 'onChartUpdateEnd')
+  onError=(action 'onChartError')
+  transform=(action chartTransform')
 }}
 ```
 
@@ -33,7 +39,7 @@ ember install ember-cli-cedar
 
 You can test this addon in the dummy app with:
 
-* `npm start`
+* `ember server`
 * Visit your app at http://localhost:4200.
 
 NOTE: Windows users may need to specify an alternate livereload port like:

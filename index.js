@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 /* jshint node: true */
 'use strict';
 var path = require('path');
