@@ -14,13 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ArcGIS/ember-cli-cedar.git"
+    "url": "https://github.com/Esri/ember-cli-cedar.git"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "author": "",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
     "ember-ajax": "^2.0.1",
@@ -54,6 +54,6 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
-    "demoURL": "https://arcgis.github.io/ember-cli-cedar"
+    "demoURL": "https://esri.github.io/ember-cli-cedar"
   }
 }
