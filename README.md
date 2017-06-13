@@ -24,16 +24,10 @@ This addon exposes a component you can use to declaratively add a Cedar chart to
 See the [Cedar documentation](http://esri.github.io/cedar/) for details on how to construct a chart specification and other chart parameters.
 
 ## Installation
-Run the following in any ember application:
+To consume this addon in any ember application:
 ```
 ember install ember-cli-cedar
 ```
-
-### Installation
-
-* `git clone` this repository
-* `npm install`
-* `bower install`
 
 ### Running the Dummy App
 
