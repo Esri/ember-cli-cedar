@@ -7,6 +7,8 @@ function isEmptyObject (obj) {
 }
 
 export default Ember.Component.extend({
+  classNames: ['cedar-chart'],
+
   // show chart at root DOM elememt of this component
   _showChart() {
     if (this.isDestroyed || this.isDestroying) {
@@ -19,36 +21,41 @@ export default Ember.Component.extend({
     // create and show the chart
     try {
       // get chart constructor options from properties and create the chart
-      const props = this.getProperties('type', 'dataset', 'datasets', 'series', 'specification', 'tooltip', 'override', 'transform', 'timeout');
+      const supportedProps = ['type', 'datasets', 'series', 'tooltip', 'overrides', 'transform', 'timeout'];
+      // const props = this.getProperties('type', 'dataset', 'datasets', 'series', 'specification', 'tooltip', 'override', 'transform', 'timeout');
+      const props = this.getProperties(supportedProps);
       this.chart = new Cedar(props);
 
+      // TODO: events aren't supported yet
       // wire up event handlers
-      const supportedEvents = ['Click', 'Mouseover', 'Mouseout', 'Mousemove', 'UpdateStart', 'UpdateEnd'];
-      supportedEvents.forEach(eventName => {
-        const attrName = `on${eventName}`;
-        if (typeof this[attrName] === 'function') {
-          const cedarEventName = eventName.toLowerCase().replace('update', 'update-');
-          this.chart.on(cedarEventName, this[attrName]);
-        }
-      });
+      // const supportedEvents = ['Click', 'Mouseover', 'Mouseout', 'Mousemove', 'UpdateStart', 'UpdateEnd'];
+      // supportedEvents.forEach(eventName => {
+      //   const attrName = `on${eventName}`;
+      //   if (typeof this[attrName] === 'function') {
+      //     const cedarEventName = eventName.toLowerCase().replace('update', 'update-');
+      //     this.chart.on(cedarEventName, this[attrName]);
+      //   }
+      // });
 
+      // TODO: show options aren't supported yet (are they even needed?)
       // get render options from properties but use elementId from component
-      const options = this.get('options') || {};
-      options.elementId = '#' + this.elementId;
+      // const options = this.get('options') || {};
+      // options.elementId = '#' + this.elementId;
 
       // autolabels will throw an error on pie charts
       // see https://github.com/Esri/cedar/issues/173
-      if (this.chart.type === 'pie') {
-        options.autolabels = false;
-      }
+      // if (this.chart.type === 'pie') {
+      //   options.autolabels = false;
+      // }
 
       // attach the chart to the DOM
-      this.chart.show(options, err => {
-        if (err) {
-          // an error occurred while fetching data
-          this._handleErr(err);
-        }
-      });
+      this.chart.show(this.elementId);
+      // this.chart.show(options, err => {
+      //   if (err) {
+      //     // an error occurred while fetching data
+      //     this._handleErr(err);
+      //   }
+      // });
     }
     catch(err) {
       // an error occurred while creating the cart
@@ -118,6 +125,9 @@ export default Ember.Component.extend({
 
     // at one point in the distant past we sent in override via options
     this._deprecate('override', 'override', 'options');
+
+    // in Cedar v1.x override is now overrides
+    this._deprecate('override', 'overrides');
 
     // re-create and show chart whenever attributes change
     Ember.run.scheduleOnce('afterRender', this, '_showChart');

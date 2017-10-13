@@ -9,6 +9,43 @@ export default Ember.Route.extend({
   model: function(params) {
     /* jshint quotmark: false */
     const slug = params.slug;
+
+    // start using new Cedar format
+    if (slug === 'bar') {
+      return {
+        type: 'bar',
+        datasets: [
+          {
+            url: 'https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0',
+            id: 1,
+            query: {
+              orderByFields: 'Number_of_SUM DESC',
+              groupByFieldsForStatistics: 'Type',
+              outStatistics: [
+                {
+                  statisticType: 'sum',
+                  onStatisticField: 'Number_of',
+                  outStatisticFieldName: 'Number_of_SUM'
+                }
+              ]
+            }
+          }
+        ],
+        series: [
+          {
+            category: {field: 'Type', label: 'Type'},
+            value: {field: 'Number_of_SUM', label: 'Number of Students'},
+            datasetId: 1
+          }
+        ],
+        overrides: {
+          categoryAxis: {
+            labelRotation: -45
+          }
+        }
+      };
+    }
+
     let groupByField = 'Type';
     let reverseXY = false;
     if (slug === 'bar-horizontal') {

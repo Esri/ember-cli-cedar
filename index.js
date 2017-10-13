@@ -15,33 +15,60 @@
 /* jshint node: true */
 'use strict';
 var path = require('path');
-var BroccoliMergeTrees = require('broccoli-merge-trees');
+var MergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 
 module.exports = {
   name: 'ember-cli-cedar',
 
-  included: function(app) {
-    this._super.included(app);
+  // included: function(app) {
+  //   this._super.included(app);
+  //
+  //   // include bower dependencies
+  //   // app.import(app.bowerDirectory + '/d3/d3.js');
+  //   // app.import(app.bowerDirectory + '/vega/vega.js');
+  //   // app.import(app.bowerDirectory + '/arcgis-cedar/dist/cedar.js');
+  // },
 
-    // include bower dependencies
-    app.import(app.bowerDirectory + '/d3/d3.js');
-    app.import(app.bowerDirectory + '/vega/vega.js');
-    app.import(app.bowerDirectory + '/arcgis-cedar/dist/cedar.js');
+  included() {
+    this._super.included.apply(this, arguments);
+    this.import('vendor/cedar-utils.js');
+    this.import('vendor/cedarAmCharts.js');
+    this.import('vendor/cedar.js');
+    this.import('vendor/shims/cedar.js');
+  },
+
+  treeForVendor (vendorTree) {
+    //
+    // TODO: also pull in amCharts?
+    // var amchartsTree = new Funnel(path.dirname(require.resolve('amcharts3/amcharts/amcharts.js')), {
+    //   // TODO: other js files?
+    //   files: ['amcharts.js', 'serial.js']
+    // });
+    var cedarUtilsTree = new Funnel(path.dirname(require.resolve('cedar-utils/dist/cedar-utils.js')), {
+      files: ['cedar-utils.js']
+    });
+    var cedarAmChartsTree = new Funnel(path.dirname(require.resolve('cedar-amcharts/dist/cedarAmCharts.js')), {
+      files: ['cedarAmCharts.js']
+    });
+    var cedarTree = new Funnel(path.dirname(require.resolve('arcgis-cedar/dist/cedar.js')), {
+      files: ['cedar.js']
+    });
+    return new MergeTrees([vendorTree, cedarUtilsTree, cedarAmChartsTree, cedarTree]);
   },
 
   // include chart JSON files
-  treeForPublic: function(publicNode) {
-    var node = this._super.treeForPublic(publicNode);
-    var chartFiles = new Funnel(path.join(this.project.root, 'bower_components', 'arcgis-cedar/dist/charts/'), {
-      include: ['**/*.json'],
-      destDir: '/assets/charts'
-    });
-
-    if (node) {
-      return new BroccoliMergeTrees([node, chartFiles]);
-    } else {
-      return chartFiles;
-    }
-  }
+  // treeForPublic: function(publicNode) {
+  //   var node = this._super.treeForPublic(publicNode);
+  //   var chartFiles = new Funnel(path.join(this.project.root, 'bower_components', 'arcgis-cedar/dist/charts/'), {
+  //     include: ['**/*.json'],
+  //     destDir: '/assets/charts'
+  //   });
+  //
+  //   if (node) {
+  //     return new MergeTrees([node, chartFiles]);
+  //   } else {
+  //     return chartFiles;
+  //   }
+  // }
 };

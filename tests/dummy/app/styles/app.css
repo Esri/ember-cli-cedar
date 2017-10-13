@@ -5,3 +5,8 @@ textarea.render-json-field {
 textarea.event-log {
   height: 300px
 }
+
+.cedar-chart {
+  height: 400px;
+  width: 100%;
+}
