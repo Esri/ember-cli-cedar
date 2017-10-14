@@ -21,15 +21,6 @@ var Funnel = require('broccoli-funnel');
 module.exports = {
   name: 'ember-cli-cedar',
 
-  // included: function(app) {
-  //   this._super.included(app);
-  //
-  //   // include bower dependencies
-  //   // app.import(app.bowerDirectory + '/d3/d3.js');
-  //   // app.import(app.bowerDirectory + '/vega/vega.js');
-  //   // app.import(app.bowerDirectory + '/arcgis-cedar/dist/cedar.js');
-  // },
-
   included() {
     this._super.included.apply(this, arguments);
     this.import('vendor/cedar.js');
@@ -50,6 +41,8 @@ module.exports = {
     return new MergeTrees([vendorTree, cedarTree]);
   },
 
+  // TODO: currently cedar bundles these, so this is not needed
+  // however if they are later non included in the bundle we'll need this
   // include chart JSON files
   // treeForPublic: function(publicNode) {
   //   var node = this._super.treeForPublic(publicNode);

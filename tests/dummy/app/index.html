@@ -24,10 +24,21 @@
     {{content-for "body"}}
 
      <!-- for now getting amcharts from CDN, TODO: local install?  -->
+     <!-- load the amCharts base library -->
      <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+     <!-- for bar, line, and area charts -->
      <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-     <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+     <!-- for pie charts -->
+     <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+     <!-- for scatter and bubble charts -->
+     <script src="https://www.amcharts.com/lib/3/xy.js"></script>
+     <!-- for radar charts -->
+     <script src="https://www.amcharts.com/lib/3/radar.js"></script>
+     <!-- optionally load an amcharts theme -->
      <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+     <!-- optioinally load the amcharts plugin to export the chart as and image or table -->
+     <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/dummy.js"></script>
