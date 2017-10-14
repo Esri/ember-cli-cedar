@@ -2,7 +2,7 @@
   function vendorModule() {
     'use strict';
 
-    return { 'default': self['Cedar'] };
+    return { 'default': self['cedar'] };
   }
 
   define('cedar', [], vendorModule);

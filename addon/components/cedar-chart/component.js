@@ -1,10 +1,5 @@
-/* globals Cedar:false */
 import Ember from 'ember';
-
-// test if an object is empty ({})
-function isEmptyObject (obj) {
-  return obj && obj.constructor === Object && Object.keys(obj).length === 0;
-}
+import cedar from 'cedar';
 
 export default Ember.Component.extend({
   classNames: ['cedar-chart'],
@@ -21,10 +16,12 @@ export default Ember.Component.extend({
     // create and show the chart
     try {
       // get chart constructor options from properties and create the chart
-      const supportedProps = ['type', 'datasets', 'series', 'tooltip', 'overrides', 'transform', 'timeout'];
-      // const props = this.getProperties('type', 'dataset', 'datasets', 'series', 'specification', 'tooltip', 'override', 'transform', 'timeout');
+      // TODO: tooltip as property
+      const supportedProps = ['type', 'datasets', 'series', 'overrides'];
       const props = this.getProperties(supportedProps);
-      this.chart = new Cedar(props);
+
+      // create the chart and attach it to the dom
+      this.chart = new cedar.Chart(this.elementId, props);
 
       // TODO: events aren't supported yet
       // wire up event handlers
@@ -48,14 +45,26 @@ export default Ember.Component.extend({
       //   options.autolabels = false;
       // }
 
-      // attach the chart to the DOM
-      this.chart.show(this.elementId);
-      // this.chart.show(options, err => {
-      //   if (err) {
-      //     // an error occurred while fetching data
-      //     this._handleErr(err);
-      //   }
-      // });
+      // show the chart
+      this.chart.query()
+      .then(response => {
+        // TODO: call transform closure action on each response
+        // first need to implmemnt this.chart.datasets(datasetName)
+        // const transform = this.get('transform');
+        // if (transform) {
+        //   for (const datasetName in response) {
+        //     if (response.hasOwnProperty(datasetName)) {
+        //       dataset = this.chart.datasets(datasetName);
+        //       response.datasetName = transform(response.datasetName, dataset)
+        //     }
+        //   }
+        // }
+        return this.chart.updateData(response).render();
+      })
+      .catch(err => {
+        // an error occurred while fetching or rendering data or
+        this._handleErr(err);
+      });
     }
     catch(err) {
       // an error occurred while creating the cart
@@ -66,9 +75,10 @@ export default Ember.Component.extend({
   // remove any event handlers and destroy the chart if it exists
   _destroyChart () {
     if (this.chart) {
-      if (this.chart.off) {
-        this.chart.off();
-      }
+      // TODO: remove events once they're implemented
+      // if (this.chart.off) {
+      //   this.chart.off();
+      // }
       delete this.chart;
     }
   },
@@ -83,51 +93,8 @@ export default Ember.Component.extend({
     }
   },
 
-  _deprecate (oldKey, newPropertyName, oldContext) {
-    const oldPropertyName = oldContext ? oldContext + '.' + oldKey : oldKey;
-    const oldPropertyValue = this.get(oldPropertyName);
-    if (oldPropertyValue) {
-      this.set(newPropertyName, oldPropertyValue);
-      if (oldContext) {
-        delete this.get(oldContext)[oldKey];
-      } else {
-        delete this[oldPropertyName];
-      }
-      this._showDeprecationWarning(oldPropertyName, newPropertyName);
-    }
-  },
-
-  // emulate Ember deprecation console warnings
-  // for nested properties, etc that we can't use deprecatingAlias for
-  _showDeprecationWarning (oldPropertyName, newPropertyName) {
-    console.warn('DEPRECATION: Usage of `' + oldPropertyName + '` is deprecated, use `' + newPropertyName + '` instead.');
-  },
-
-  didReceiveAttrs (e) {
+  didReceiveAttrs () {
     this._super(...arguments);
-    // now we call an error handler instead of showing a static message
-    // when there are chart errors
-    if (e.newAttrs.invalidSpecMessage) {
-      this._showDeprecationWarning('invalidSpecMessage', 'onError');
-    }
-
-    // in ember-cli-cedar <= v0.5.0 Cedar constructor options
-    // were passed in via the specification property
-    // need to pull those out into own properties and show deprecation warning
-    this._deprecate('type', 'type', 'specification');
-    this._deprecate('dataset', 'dataset', 'specification');
-    this._deprecate('tooltip', 'tooltip', 'specification');
-    this._deprecate('timeout', 'timeout', 'specification');
-    this._deprecate('override', 'override', 'specification');
-    if (isEmptyObject(this.get('specification'))) {
-      delete this.specification;
-    }
-
-    // at one point in the distant past we sent in override via options
-    this._deprecate('override', 'override', 'options');
-
-    // in Cedar v1.x override is now overrides
-    this._deprecate('override', 'overrides');
 
     // re-create and show chart whenever attributes change
     Ember.run.scheduleOnce('afterRender', this, '_showChart');

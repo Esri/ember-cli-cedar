@@ -32,8 +32,6 @@ module.exports = {
 
   included() {
     this._super.included.apply(this, arguments);
-    this.import('vendor/cedar-utils.js');
-    this.import('vendor/cedarAmCharts.js');
     this.import('vendor/cedar.js');
     this.import('vendor/shims/cedar.js');
   },
@@ -45,16 +43,11 @@ module.exports = {
     //   // TODO: other js files?
     //   files: ['amcharts.js', 'serial.js']
     // });
-    var cedarUtilsTree = new Funnel(path.dirname(require.resolve('cedar-utils/dist/cedar-utils.js')), {
-      files: ['cedar-utils.js']
-    });
-    var cedarAmChartsTree = new Funnel(path.dirname(require.resolve('cedar-amcharts/dist/cedarAmCharts.js')), {
-      files: ['cedarAmCharts.js']
-    });
-    var cedarTree = new Funnel(path.dirname(require.resolve('arcgis-cedar/dist/cedar.js')), {
+    var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
+      // TODO: other files? source maps etc?
       files: ['cedar.js']
     });
-    return new MergeTrees([vendorTree, cedarUtilsTree, cedarAmChartsTree, cedarTree]);
+    return new MergeTrees([vendorTree, cedarTree]);
   },
 
   // include chart JSON files
