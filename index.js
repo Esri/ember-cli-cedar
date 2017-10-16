@@ -23,7 +23,8 @@ module.exports = {
 
   included() {
     this._super.included.apply(this, arguments);
-    this.import('vendor/cedar.js');
+    this.import('vendor/cedar/themes/amCharts/calcite.js');
+    this.import('vendor/cedar/cedar.js');
     this.import('vendor/shims/cedar.js');
   },
 
@@ -36,7 +37,8 @@ module.exports = {
     // });
     var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
       // TODO: other files? source maps etc?
-      files: ['cedar.js']
+      files: ['cedar.js', 'themes/amCharts/calcite.js'],
+      destDir: 'cedar'
     });
     return new MergeTrees([vendorTree, cedarTree]);
   },
