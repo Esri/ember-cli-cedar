@@ -5,6 +5,13 @@ var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     // Add options here
+    cedar: {
+      // include amCharts scripts/styles in vendor files
+      amCharts: {
+        // TODO: basePath: '/path/to/local/amCharts' - defaults to 'vendor/amCharts'
+        imports: ['amcharts.js', 'serial.js', 'xy.js', 'pie.js', 'radar.js', 'plugins/export/export.js', 'plugins/export/export.css']
+      }
+    }
   });
 
   /*
