@@ -21,26 +21,37 @@ var Funnel = require('broccoli-funnel');
 module.exports = {
   name: 'ember-cli-cedar',
 
-  included() {
+  included(app) {
     this._super.included.apply(this, arguments);
+    const cedarOptions = app && app.options && app.options.cedar;
+    const amChartsOptions = cedarOptions && cedarOptions.amCharts;
+    if (amChartsOptions) {
+      if (amChartsOptions.imports && amChartsOptions.imports.length > 0) {
+        const basePath = amChartsOptions.basePath || 'vendor/amcharts';
+        amChartsOptions.imports.forEach(function (resource) {
+          app.import(path.join(basePath, resource));
+        });
+        this.import('vendor/cedar/themes/amCharts/calcite.js');
+        this.import('vendor/cedar/cedar.js');
+      }
+    }
     this.import('vendor/cedar/themes/amCharts/calcite.js');
     this.import('vendor/cedar/cedar.js');
     this.import('vendor/shims/cedar.js');
   },
 
   treeForVendor (vendorTree) {
-    //
-    // TODO: also pull in amCharts?
-    // var amchartsTree = new Funnel(path.dirname(require.resolve('amcharts3/amcharts/amcharts.js')), {
-    //   // TODO: other js files?
-    //   files: ['amcharts.js', 'serial.js']
-    // });
+    // copy cedar dist files to vendor folder
     var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
       // TODO: other files? source maps etc?
       files: ['cedar.js', 'themes/amCharts/calcite.js'],
       destDir: 'cedar'
     });
-    return new MergeTrees([vendorTree, cedarTree]);
+    // copy amCharts dist files to vendor folder
+    var amchartsTree = new Funnel(path.dirname(require.resolve('amcharts3/amcharts/amcharts.js')), {
+      destDir: 'amcharts'
+    });
+    return new MergeTrees([vendorTree, cedarTree, amchartsTree]);
   },
 
   // TODO: currently cedar bundles these, so this is not needed
