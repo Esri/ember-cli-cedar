@@ -6,13 +6,13 @@
   series=model.series
   onError=(action 'showError')
 }}</pre>
+<div class="alert alert-danger">{{errorMessage}}</div>
 {{cedar-chart
   type=model.type
   datasets=invalidUrlDataset
   series=model.series
   onError=(action 'showError')
 }}
-<div class="alert alert-danger">{{errorMessage}}</div>
 <p>A chart component with invalid attributes returns a message like this:</p>
 <pre>\{{cedar-chart
   specification=42
@@ -21,6 +21,7 @@
   invalidSpecMessage="invalidSpecMessage is no longer used and should show a deprecation"
   onError=(action 'showError2')
 }}</pre>
+<div class="alert alert-danger">{{errorMessage2}}</div>
 {{cedar-chart
   specification=42
   datasets=model.datasets
@@ -28,5 +29,3 @@
   invalidSpecMessage="invalidSpecMessage is no longer used and should show a deprecation"
   onError=(action 'showError2')
 }}
-<div class="alert alert-danger">{{errorMessage2}}</div>
-<p>Also, check your console message, it should show a deprecation warning for <code>invalidSpecMessage</code>.</p>
