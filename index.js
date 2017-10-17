@@ -23,18 +23,17 @@ module.exports = {
 
   included(app) {
     this._super.included.apply(this, arguments);
-    const cedarOptions = app && app.options && app.options.cedar;
-    const amChartsOptions = cedarOptions && cedarOptions.amCharts;
-    if (amChartsOptions) {
-      if (amChartsOptions.imports && amChartsOptions.imports.length > 0) {
-        const basePath = amChartsOptions.basePath || 'vendor/amcharts';
-        amChartsOptions.imports.forEach(function (resource) {
-          app.import(path.join(basePath, resource));
-        });
-        this.import('vendor/cedar/themes/amCharts/calcite.js');
-        this.import('vendor/cedar/cedar.js');
-      }
+    // parse options from ember-cli-build
+    this.options = app && app.options && app.options.cedar;
+    const amChartsOptions = this.options && this.options.amCharts;
+    this.hasAmChartsImports = amChartsOptions && amChartsOptions.imports && amChartsOptions.imports.length > 0;
+    if (this.hasAmChartsImports) {
+      // bundle specified amcharts files from the public folder
+      amChartsOptions.imports.forEach(function (resource) {
+        app.import(path.join('vendor/amcharts', resource));
+      });
     }
+    // bundle cedar scripts from vendor folder
     this.import('vendor/cedar/themes/amCharts/calcite.js');
     this.import('vendor/cedar/cedar.js');
     this.import('vendor/shims/cedar.js');
@@ -47,27 +46,38 @@ module.exports = {
       files: ['cedar.js', 'themes/amCharts/calcite.js'],
       destDir: 'cedar'
     });
-    // copy amCharts dist files to vendor folder
-    var amchartsTree = new Funnel(path.dirname(require.resolve('amcharts3/amcharts/amcharts.js')), {
+    // TODO: check this.options or env config to get location of amCharts build
+    // (i.e. a licensed build), for now just get free build installed from npm
+    var pathToAmCharts = path.dirname(require.resolve('amcharts3/amcharts/amcharts.js'));
+    var amchartsTree = new Funnel(pathToAmCharts, {
       destDir: 'amcharts'
     });
     return new MergeTrees([vendorTree, cedarTree, amchartsTree]);
   },
 
-  // TODO: currently cedar bundles these, so this is not needed
-  // however if they are later non included in the bundle we'll need this
-  // include chart JSON files
-  // treeForPublic: function(publicNode) {
-  //   var node = this._super.treeForPublic(publicNode);
-  //   var chartFiles = new Funnel(path.join(this.project.root, 'bower_components', 'arcgis-cedar/dist/charts/'), {
-  //     include: ['**/*.json'],
-  //     destDir: '/assets/charts'
-  //   });
-  //
-  //   if (node) {
-  //     return new MergeTrees([node, chartFiles]);
-  //   } else {
-  //     return chartFiles;
-  //   }
-  // }
+  treeForPublic: function(publicNode) {
+    var node = this._super.treeForPublic(publicNode);
+    // copy amCharts dist files to public folder so that
+    // it can dynamically load resources like images, styles, and scripts  at runtime
+    // TODO: check this.options or env config to get location of amCharts build
+    // (i.e. a licensed build), for now just get free build installed from npm
+    var pathToAmCharts = path.dirname(require.resolve('amcharts3/amcharts/amcharts.js'));
+    var amchartsTree = new Funnel(pathToAmCharts, {
+      destDir: 'amcharts'
+    });
+    if (node) {
+      return new MergeTrees([node, amchartsTree]);
+    } else {
+      return amchartsTree;
+    }
+  },
+
+  contentFor(type) {
+    var content = '';
+    if (type === 'head') {
+      // tell AmCharts the base bath to it's dynamic resources
+      content = '<script>var AmCharts_path = "/amcharts";</script>';
+    }
+    return content;
+  }
 };

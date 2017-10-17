@@ -8,7 +8,8 @@ module.exports = function(defaults) {
     cedar: {
       // include amCharts scripts/styles in vendor files
       amCharts: {
-        // TODO: basePath: '/path/to/local/amCharts' - defaults to 'vendor/amCharts'
+        // TODO: srcDir: '/path/to/local/amCharts'
+        // otherwise defaults to installing from node_modules
         imports: ['amcharts.js', 'serial.js', 'xy.js', 'pie.js', 'radar.js', 'plugins/export/export.js', 'plugins/export/export.css']
       }
     }
