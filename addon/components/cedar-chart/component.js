@@ -48,17 +48,16 @@ export default Ember.Component.extend({
       // show the chart
       this.chart.query()
       .then(response => {
-        // TODO: call transform closure action on each response
-        // first need to implmemnt this.chart.datasets(datasetName)
-        // const transform = this.get('transform');
-        // if (transform) {
-        //   for (const datasetName in response) {
-        //     if (response.hasOwnProperty(datasetName)) {
-        //       dataset = this.chart.datasets(datasetName);
-        //       response.datasetName = transform(response.datasetName, dataset)
-        //     }
-        //   }
-        // }
+        const transform = this.get('transform');
+        if (transform) {
+          // call transform closure action on each response
+          for (const datasetName in response) {
+            if (response.hasOwnProperty(datasetName)) {
+              const dataset = this.chart.datasets(datasetName);
+              response[datasetName] = transform(response[datasetName], dataset);
+            }
+          }
+        }
         return this.chart.updateData(response).render();
       })
       .catch(err => {
