@@ -1,11 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  invalidUrlDataset: Ember.computed('model.dataset', function() {
+  invalidUrlDataset: Ember.computed('model.datasets', function() {
     // deep clone the dataset
-    const datasetCopy = Ember.copy(this.get('model.dataset'), true);
-    datasetCopy.url = 'thisisnotavalidurl';
-    return datasetCopy;
+    const datasetsCopy = Ember.copy(this.get('model.datasets'), true);
+    datasetsCopy[0].url = 'thisisnotavalidurl';
+    return datasetsCopy;
   }),
   emptyDataset: {},
   actions: {

@@ -4,28 +4,29 @@ export default Ember.Route.extend({
   model () {
     return {
       type: 'pie',
-      options: {
-        width: 600,
-        height: 600,
-        autolabels: false
-      },
-      dataset: {
-        "url":"https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
-        "query": {
-          "orderByFields": "Number_of_SUM DESC",
-          "groupByFieldsForStatistics": "Type",
-          "outStatistics": [{
-            "statisticType": "sum",
-            "onStatisticField": "Number_of",
-            "outStatisticFieldName": "Number_of_SUM"
-          }]
-        },
-        "mappings":{
-          "label": {"field":"Type","label":"Type"},
-          "y": {"field":"Number_of_SUM","label":"Total Students"},
-          "radius": 270
+      datasets: [
+        {
+          "url":"https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0",
+          "query": {
+            "orderByFields": "Number_of_SUM DESC",
+            "groupByFieldsForStatistics": "Type",
+            "outStatistics": [{
+              "statisticType": "sum",
+              "onStatisticField": "Number_of",
+              "outStatisticFieldName": "Number_of_SUM"
+            }]
+          }
         }
-      }
+      ],
+      "series": [
+        {
+          "category": {"field": "Type", "label": "Type"},
+          "value": {
+            "field": "Number_of_SUM",
+            "label": "Number of Students"
+          }
+        }
+      ]
     };
   }
 });
