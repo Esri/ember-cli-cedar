@@ -18,23 +18,33 @@ var path = require('path');
 var MergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 
+function getAmChartsTree (publicPath) {
+  // TODO: check this.options or env config to get location of amCharts build
+  // (i.e. a licensed build), for now just get free build installed from npm
+  var amchartsDir = path.dirname(require.resolve('amcharts3/amcharts/amcharts.js'));
+  return new Funnel(amchartsDir, {
+    destDir: publicPath
+  });
+}
+
 module.exports = {
   name: 'ember-cli-cedar',
 
   included(app) {
     this._super.included.apply(this, arguments);
-    const cedarOptions = app && app.options && app.options.cedar;
-    const amChartsOptions = cedarOptions && cedarOptions.amCharts;
-    if (amChartsOptions) {
-      if (amChartsOptions.imports && amChartsOptions.imports.length > 0) {
-        const basePath = amChartsOptions.basePath || 'vendor/amcharts';
-        amChartsOptions.imports.forEach(function (resource) {
-          app.import(path.join(basePath, resource));
-        });
-        this.import('vendor/cedar/themes/amCharts/calcite.js');
-        this.import('vendor/cedar/cedar.js');
-      }
+    // parse options from ember-cli-build
+    this.options = app && app.options && app.options.cedar;
+    this.amChartsOptions = this.options && this.options.amCharts;
+    this.hasAmChartsImports = this.amChartsOptions && this.amChartsOptions.imports && this.amChartsOptions.imports.length > 0;
+    // when bundling scripts, need to also serve the amCharts assets
+    // that those scripts will dynamically load
+    if (this.amChartsOptions.publicPath && this.hasAmChartsImports) {
+      // bundle specified amcharts files from the public folder
+      this.amChartsOptions.imports.forEach(function (resource) {
+        app.import(path.join('vendor/amcharts', resource));
+      });
     }
+    // bundle cedar scripts from vendor folder
     this.import('vendor/cedar/themes/amCharts/calcite.js');
     this.import('vendor/cedar/cedar.js');
     this.import('vendor/shims/cedar.js');
@@ -47,27 +57,41 @@ module.exports = {
       files: ['cedar.js', 'themes/amCharts/calcite.js'],
       destDir: 'cedar'
     });
-    // copy amCharts dist files to vendor folder
-    var amchartsTree = new Funnel(path.dirname(require.resolve('amcharts3/amcharts/amcharts.js')), {
-      destDir: 'amcharts'
-    });
-    return new MergeTrees([vendorTree, cedarTree, amchartsTree]);
+    var treesToMerge = [vendorTree, cedarTree];
+    var publicPath = this.amChartsOptions.publicPath;
+    if (publicPath && this.hasAmChartsImports) {
+      var amchartsTree = getAmChartsTree(publicPath);
+      treesToMerge.push(amchartsTree);
+    }
+    return new MergeTrees(treesToMerge);
   },
 
-  // TODO: currently cedar bundles these, so this is not needed
-  // however if they are later non included in the bundle we'll need this
-  // include chart JSON files
-  // treeForPublic: function(publicNode) {
-  //   var node = this._super.treeForPublic(publicNode);
-  //   var chartFiles = new Funnel(path.join(this.project.root, 'bower_components', 'arcgis-cedar/dist/charts/'), {
-  //     include: ['**/*.json'],
-  //     destDir: '/assets/charts'
-  //   });
-  //
-  //   if (node) {
-  //     return new MergeTrees([node, chartFiles]);
-  //   } else {
-  //     return chartFiles;
-  //   }
-  // }
+  treeForPublic: function(publicNode) {
+    var node = this._super.treeForPublic(publicNode);
+    var publicPath = this.amChartsOptions.publicPath;
+    if (publicPath) {
+      // copy amCharts dist files to public folder so that
+      // it can dynamically load resources like images, styles, and scripts  at runtime
+      var amchartsTree = getAmChartsTree(publicPath);
+      if (node) {
+        return new MergeTrees([node, amchartsTree]);
+      } else {
+        return amchartsTree;
+      }
+    } else {
+      return node;
+    }
+  },
+
+  contentFor(type) {
+    var content = '';
+    if (type === 'head') {
+      var publicPath = this.amChartsOptions.publicPath;
+      if (publicPath) {
+        // tell AmCharts the base bath it should use when dynamically loading resources
+        content = `<script>var AmCharts_path = '/${publicPath}';</script>`;
+      }
+    }
+    return content;
+  }
 };
