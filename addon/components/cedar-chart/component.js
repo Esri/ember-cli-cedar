@@ -24,7 +24,7 @@ export default Ember.Component.extend({
       // Iterate over properties
       for (let prop in props) {
         // if the value contained in the prop is not undefined
-        if (props[prop] !== undefined) {
+        if (props.hasOwnProperty(prop) && props[prop] !== undefined) {
           // override the definition val with the prop val
           definition[prop] = props[prop];
         }
