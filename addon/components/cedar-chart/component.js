@@ -19,9 +19,19 @@ export default Ember.Component.extend({
       // TODO: tooltip as property
       const supportedProps = ['type', 'datasets', 'series', 'overrides'];
       const props = this.getProperties(supportedProps);
+      const definition = this.getWithDefault('definition', {});
+
+      // Iterate over properties
+      for (let prop in props) {
+        // if the value contained in the prop is not undefined
+        if (props[prop] !== undefined) {
+          // override the definition val with the prop val
+          definition[prop] = props[prop];
+        }
+      }
 
       // create the chart and attach it to the dom
-      this.chart = new cedar.Chart(this.elementId, props);
+      this.chart = new cedar.Chart(this.elementId, definition);
 
       // TODO: events aren't supported yet
       // wire up event handlers
