@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unrleased
+## v1.0.0-alpha.1
 ### BREAKING CHANGES
 - Replace arcgis-cedar with @esri/cedar, see https://github.com/Esri/cedar/releases/tag/v1.0.0-alpha
 
