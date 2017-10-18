@@ -63,7 +63,7 @@ export default Ember.Component.extend({
           // call transform closure action on each response
           for (const datasetName in response) {
             if (response.hasOwnProperty(datasetName)) {
-              const dataset = this.chart.datasets(datasetName);
+              const dataset = this.chart.dataset(datasetName);
               response[datasetName] = transform(response[datasetName], dataset);
             }
           }
