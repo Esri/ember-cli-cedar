@@ -1,12 +1,18 @@
 <h3>{{model.title}}</h3>
 <div class="row">
-  <div class="col-md-12 col-lg-8">
-    {{
-      cedar-chart
-      type=model.type
-      dataset=model.dataset
-      options=chartOptions
-      override=model.override
+  <div class="col-xs-12">
+    <ul class="list-inline">
+    {{#each chartTypes as |chartType|}}
+      <li>{{link-to chartType.label "charts.chart" chartType.slug }}</li>
+    {{/each}}
+    </ul>
+  </div>
+  <div class="col-xs-12">
+    {{cedar-chart
+      type=model.definition.type
+      datasets=model.definition.datasets
+      series=model.definition.series
+      overrides=model.definition.overrides
       onClick=(action 'logEvent')
       onMouseover=(action 'logEvent')
       onMouseout=(action 'logEvent')
@@ -14,7 +20,13 @@
       onUpdateEnd=(action 'logEvent')
     }}
   </div>
-  <div class="col-md-12 col-lg-4">
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h4>Chart Definition JSON</h4>
+    <pre><code>{{definitionString}}</code></pre>
+    <!-- hiding this until v1 supports events and maybe renderers -->
+    <!--
     <h4>Options</h4>
     <p>Renderer: <select onchange={{action "selectRenderer" value="target.value"}}>
     {{#each renderers as |renderer|}}
@@ -24,5 +36,6 @@
     <h4>Events</h4>
     <p>{{input type="checkbox" checked=shouldLogEvents}} Log <a href="http://esri.github.io/cedar/api/on.html" target="_blank">events</a> below as you interact with the chart.</p>
     {{textarea class="form-control event-log" value=eventLog}}
+    -->
   </div>
 </div>
