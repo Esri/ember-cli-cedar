@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unrleased
+### BREAKING CHANGES
+- Replace arcgis-cedar with @esri/cedar, see https://github.com/Esri/cedar/releases/tag/v1.0.0-alpha
+
 ## v0.7.2
 ### Changed
 - Bump cedar version to 0.9.2 resolving axis label truncation. Also adds axis titles to timeline charts
