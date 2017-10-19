@@ -83,13 +83,13 @@ module.exports = {
     }
   },
 
-  contentFor(type) {
+  contentFor(type, config) {
     var content = '';
     if (type === 'head') {
       var publicPath = this.amChartsOptions.publicPath;
       if (publicPath) {
         // tell AmCharts the base bath it should use when dynamically loading resources
-        content = `<script>var AmCharts_path = '/${publicPath}';</script>`;
+        content = `<script>var AmCharts_path = '${config.rootURL}${publicPath}';</script>`;
       }
     }
     return content;
