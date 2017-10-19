@@ -1,9 +1,25 @@
 <div class="container">
-  <h2 id="title">Ember Addon for Cedar</h2>
-  <div>{{link-to "Common Chart Types" "charts.chart" "bar" }}
-    | {{link-to "Playground" "playground"}}
-    {{!-- for now commenting this out until we have a better transform example --}}
-    {{!-- | {{link-to "Transform Query Results" "transform"}} --}}
-    | {{link-to "Handling Errors" "error-handling"}}</div>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        {{link-to "ember-cli-cedar" "charts.chart" "bar" class="navbar-brand"}}
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li>{{link-to "Common Chart Types" "charts.chart" "bar" }}</li>
+          <li>{{link-to "Playground" "playground"}}</li>
+          <li>{{link-to "Handling Errors" "error-handling"}}</li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="https://www.npmjs.com/package/ember-cli-cedar">About</a></li>
+          <li><a href="https://github.com/Esri/ember-cli-cedar">GitHub</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </nav>
+  <p>An Ember Addon for <a href="https://www.npmjs.com/package/@esri/cedar">@esri/cedar</a></p>
   {{outlet}}
+  <div>
+    <a href="https://github.com/Esri/ember-cli-cedar">ember-cli-cedar on GitHub</a>
+  </div>
 </div>

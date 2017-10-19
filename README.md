@@ -2,6 +2,8 @@
 
 Ember addon for the [@esri/cedar](https://github.com/Esri/cedar) charting library.
 
+[View it live](http://esri.github.io/ember-cli-cedar/#/charts/bar)
+
 ## Usage
 
 ### Component
