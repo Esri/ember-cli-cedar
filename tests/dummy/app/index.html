@@ -9,15 +9,18 @@
 
     {{content-for "head"}}
 
+    <!--bootstrap CSS so dummy site ain't ugly-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- match esri brand -->
+    <link href="https://esri.github.io/calcite-bootstrap/styles/calcite-bootstrap.min.css" rel="stylesheet">
+
+    <!-- dummy app styles -->
     <style type="text/css">
       body {
         padding-top: 20px;
         padding-bottom: 20px;
       }
     </style>
-
-    <!--bootstrap CSS so dummy site ain't ugly-->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link rel="stylesheet" href="{{rootURL}}assets/dummy.css">
