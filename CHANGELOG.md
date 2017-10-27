@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- deepMerge will no longer iterate over ember array properties
+
 ## v1.0.0-alpha.1
 ### Fixed
 - AmCharts path should be relative to app rootURL
