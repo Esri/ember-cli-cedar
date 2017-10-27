@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-cedar",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Ember addon for Esri Cedar charting library",
   "directories": {
     "doc": "doc",
@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "ember build",
+    "prerelease": "git add .",
+    "release": "ember release --prerelease",
     "start": "ember server",
     "test": "ember try:each",
     "deploy": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push origin gh-pages:gh-pages"
