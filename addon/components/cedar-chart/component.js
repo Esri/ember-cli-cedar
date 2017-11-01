@@ -56,6 +56,7 @@ export default Ember.Component.extend({
       // }
 
       // show the chart
+      Ember.tryInvoke(this, 'onUpdateStart');
       this.chart.query()
       .then(response => {
         const transform = this.get('transform');
@@ -68,6 +69,7 @@ export default Ember.Component.extend({
             }
           }
         }
+        Ember.tryInvoke(this, 'onUpdateEnd');
         return this.chart.updateData(response).render();
       })
       .catch(err => {
