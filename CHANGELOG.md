@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Changed
+- dummy app requests chart specs over HTTPS so it works on gh-pages
+
 ## v1.0.0-alpha.7
 ### Fixed
 - bump cedar for better support of v0.x charts
