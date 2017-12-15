@@ -23,7 +23,14 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <h4>Chart Definition JSON</h4>
+    <div class="clearfix">
+      <div class="pull-left">
+        <h4>Chart Definition JSON</h4>
+      </div>
+      <div class="pull-right">
+        {{#link-to "playground" (query-params spec=model.slug) class="btn btn-primary"}}Edit{{/link-to}}
+      </div>
+    </div>
     <pre><code>{{definitionString}}</code></pre>
     <!-- hiding this until v1 supports events and maybe renderers -->
     <!--

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- bump cedar for better support of v0.x charts
+### Changed
+- dummy site works off of chart JSON on cedar's v1 docs site
+
 ## v1.0.0-alpha.6
 ### Fixed
 - bump cedar to fix timeline labels and font color
