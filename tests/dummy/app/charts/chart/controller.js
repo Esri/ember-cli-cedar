@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
     'bar',
     'bar-grouped',
     'bar-stacked',
-    'horizontal',
+    'bar-horizontal',
     'line',
     'area',
     'scatter',

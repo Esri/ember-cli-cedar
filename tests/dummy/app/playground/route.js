@@ -1,28 +1,19 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function() {
-    // bubble scatterplot JSON
-    return {
-      "type": "scatter",
-      "datasets": [
-        {
-          "url": "https://services1.arcgis.com/bqfNVPUK3HOnCFmA/arcgis/rest/services/Demographics_(Median_Household_Income)/FeatureServer/0",
-          "append": true
-        }
-      ],
-      "series": [
-        {
-          "category": {
-            "field": "TotalPop2015",
-            "label": "Population"
-          },
-          "value": {
-            "field": "MedianHHIncome2015",
-            "label": "Median Median Household Income"
-          }
-        }
-      ]
-    };
+  queryParams: {
+    spec: {
+      refreshModel: true
+    }
+  },
+
+  model: function(params) {
+    console.log(params);
+    const spec = params.spec || 'bar';
+    return fetch (`http://cedar-v1.surge.sh/examples/${spec}.json`)
+    .then(response => {
+      // TODO: check if response is OK
+      return response.json()
+    });
   },
 });
