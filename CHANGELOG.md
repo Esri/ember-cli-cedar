@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## v1.0.0-beta.0
+### Fixed
+- bump cedar to v1-beta to fix multi-dataset joins
 ### Changed
 - dummy app requests chart specs over HTTPS so it works on gh-pages
 

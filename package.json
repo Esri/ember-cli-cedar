@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-cedar",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-beta.0",
   "description": "Ember addon for Esri Cedar charting library",
   "directories": {
     "doc": "doc",
@@ -50,7 +50,7 @@
     "ember-addon"
   ],
   "dependencies": {
-    "@esri/cedar": "^1.0.0-alpha.7",
+    "@esri/cedar": "^1.0.0-beta.0",
     "amcharts3": "^3.21.2",
     "broccoli-funnel": "^1.1.0",
     "broccoli-merge-trees": "^1.2.1",
