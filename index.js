@@ -88,8 +88,11 @@ module.exports = {
     if (type === 'head') {
       var publicPath = this.amChartsOptions.publicPath;
       if (publicPath) {
+        var assetBaseUrl = (config.cedar && config.cedar.assetBaseUrl) || config.rootURL;
+        // concatenate path w/ '/'
+        var amChartsPath = [assetBaseUrl.replace(/\/$/, ''), publicPath.replace(/^\//, '')].join('/');
         // tell AmCharts the base bath it should use when dynamically loading resources
-        content = `<script>var AmCharts_path = '${config.rootURL}${publicPath}';</script>`;
+        content = `<script>var AmCharts_path = '${amChartsPath}';</script>`;
       }
     }
     return content;
