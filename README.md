@@ -1,4 +1,4 @@
-# Ember-cli-cedar
+# ember-cli-cedar
 
 Ember addon for the [@esri/cedar](https://github.com/Esri/cedar) charting library.
 
@@ -142,7 +142,7 @@ ember server
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 ### Contributing
 

@@ -2,60 +2,61 @@
   "name": "ember-cli-cedar",
   "version": "1.0.0-beta.1",
   "description": "Ember addon for Esri Cedar charting library",
+  "keywords": [
+    "ember-addon"
+  ],
+  "license": "Apache-2.0",
+  "author": "",
   "directories": {
     "doc": "doc",
     "test": "tests"
-  },
-  "scripts": {
-    "build": "ember build",
-    "prerelease": "git add .",
-    "release": "ember release --prerelease",
-    "start": "ember server",
-    "test": "ember try:each",
-    "deploy": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push origin gh-pages:gh-pages"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Esri/ember-cli-cedar.git"
   },
-  "engines": {
-    "node": ">= 0.10.0"
+  "scripts": {
+    "build": "ember build",
+    "prerelease": "git add .",
+    "release": "ember release --prerelease",
+    "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
+    "start": "ember serve",
+    "test": "ember try:each",
+    "deploy": "ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\"; git push origin gh-pages:gh-pages"
   },
-  "author": "",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "broccoli-asset-rev": "^2.4.2",
-    "ember-ajax": "^2.0.1",
-    "ember-cli": "2.8.0",
-    "ember-cli-app-version": "^1.0.0",
-    "ember-cli-dependency-checker": "^1.2.0",
-    "ember-cli-github-pages": "0.1.2",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
-    "ember-cli-inject-live-reload": "^1.4.0",
-    "ember-cli-jshint": "^1.0.0",
-    "ember-cli-qunit": "^2.1.0",
-    "ember-cli-release": "^v1.0.0-beta.2",
-    "ember-cli-sri": "^2.1.0",
-    "ember-cli-test-loader": "^1.1.0",
-    "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.8.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
-    "ember-export-application-global": "^1.0.5",
-    "ember-fetch": "3.4.1",
-    "ember-load-initializers": "^0.5.1",
-    "ember-resolver": "^2.0.3",
-    "loader.js": "^4.0.1"
-  },
-  "keywords": [
-    "ember-addon"
-  ],
   "dependencies": {
     "@esri/cedar": "^1.0.0-beta.0",
     "amcharts3": "^3.21.2",
     "broccoli-funnel": "^1.1.0",
     "broccoli-merge-trees": "^1.2.1",
-    "ember-cli-babel": "^5.1.6",
+    "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^1.0.3"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
+    "ember-ajax": "^3.0.0",
+    "ember-cli": "~2.18.0",
+    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-github-pages": "0.1.2",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-qunit": "^4.1.1",
+    "ember-cli-shims": "^1.2.0",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-disable-prototype-extensions": "^1.1.2",
+    "ember-export-application-global": "^2.0.0",
+    "ember-fetch": "3.4.1",
+    "ember-load-initializers": "^1.0.0",
+    "ember-resolver": "^4.0.0",
+    "ember-source": "~2.18.0",
+    "eslint-plugin-ember": "^5.0.0",
+    "eslint-plugin-node": "^5.2.1",
+    "loader.js": "^4.2.3"
+  },
+  "engines": {
+    "node": "^4.5 || 6.* || >= 7.*"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
