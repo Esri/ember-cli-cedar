@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import layout from './template';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout: layout,
 
-  jsonString: Ember.computed('model', function() {
+  jsonString: computed('model', function() {
     return JSON.stringify(this.get('model'), undefined, 2);
   }),
   actions: {

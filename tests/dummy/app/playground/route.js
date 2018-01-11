@@ -1,7 +1,7 @@
+import Route from '@ember/routing/route';
 import fetch from 'fetch';
-import Ember from 'ember';
 
-export default Ember.Route.extend({
+export default Route.extend({
   queryParams: {
     spec: {
       refreshModel: true

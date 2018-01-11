@@ -33,8 +33,8 @@ module.exports = {
   included(app) {
     this._super.included.apply(this, arguments);
     // parse options from ember-cli-build
-    this.options = app && app.options && app.options.cedar;
-    this.amChartsOptions = this.options && this.options.amCharts;
+    const options = app && app.options;
+    this.amChartsOptions = options && options.cedar && options.cedar.amCharts;
     this.hasAmChartsImports = this.amChartsOptions && this.amChartsOptions.imports && this.amChartsOptions.imports.length > 0;
     // when bundling scripts, need to also serve the amCharts assets
     // that those scripts will dynamically load
@@ -53,8 +53,7 @@ module.exports = {
   treeForVendor (vendorTree) {
     // copy cedar dist files to vendor folder
     var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
-      // TODO: other files? source maps etc?
-      files: ['cedar.js', 'themes/amCharts/calcite.js'],
+      files: ['cedar.js', 'cedar.js.map', 'themes/amCharts/calcite.js'],
       destDir: 'cedar'
     });
     var treesToMerge = [vendorTree, cedarTree];
