@@ -1,13 +1,19 @@
-import Ember from 'ember';
+import { copy } from '@ember/object/internals';
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  invalidUrlDataset: Ember.computed('model.datasets', function() {
+export default Controller.extend({
+  invalidUrlDataset: computed('model.datasets', function() {
     // deep clone the dataset
-    const datasetsCopy = Ember.copy(this.get('model.datasets'), true);
+    const datasetsCopy = copy(this.get('model.datasets'), true);
     datasetsCopy[0].url = 'thisisnotavalidurl';
     return datasetsCopy;
   }),
-  emptyDataset: {},
+  emptyDataset: null,
+  init() {
+    this._super(...arguments);
+    this.set('emptyDataset', {});
+  },
   actions: {
     showError (err) {
       this.set('errorMessage', err);

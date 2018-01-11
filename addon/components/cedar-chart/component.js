@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import { scheduleOnce } from '@ember/runloop';
+import { tryInvoke } from '@ember/utils';
+import Component from '@ember/component';
 import cedar from 'cedar';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['cedar-chart'],
 
   // show chart at root DOM elememt of this component
@@ -56,7 +58,7 @@ export default Ember.Component.extend({
       // }
 
       // show the chart
-      Ember.tryInvoke(this, 'onUpdateStart');
+      tryInvoke(this, 'onUpdateStart');
       this.chart.query()
       .then(response => {
         const transform = this.get('transform');
@@ -69,7 +71,7 @@ export default Ember.Component.extend({
             }
           }
         }
-        Ember.tryInvoke(this, 'onUpdateEnd');
+        tryInvoke(this, 'onUpdateEnd');
         return this.chart.updateData(response).render();
       })
       .catch(err => {
@@ -108,7 +110,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
 
     // re-create and show chart whenever attributes change
-    Ember.run.scheduleOnce('afterRender', this, '_showChart');
+    scheduleOnce('afterRender', this, '_showChart');
   },
 
   willDestroyElement () {

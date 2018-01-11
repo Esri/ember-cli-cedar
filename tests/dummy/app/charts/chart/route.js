@@ -1,7 +1,8 @@
+import { capitalize } from '@ember/string';
+import Route from '@ember/routing/route';
 import fetch from 'fetch';
-import Ember from 'ember';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model: function(params) {
     // TODO: default to 'bar'
     const slug = params.slug;
@@ -11,7 +12,7 @@ export default Ember.Route.extend({
       // TODO: check if response is OK
       return response.json()
       .then(definition => {
-        const title = `${Ember.String.capitalize(params.slug)} Example`;
+        const title = `${capitalize(params.slug)} Example`;
         return {
           title,
           definition,
