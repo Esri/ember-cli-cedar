@@ -11,7 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - updated to Ember 2.18
 - add component test for {{cedar-chart}} that actually renders a chart
-- bumped @esri/cedar to beta.1 and removed unused amcharts dep
+- bumped @esri/cedar to beta.1 and removed unused amcharts
+- using yarn instead of npm
 
 ## v1.0.0-beta.1
 ### Added
