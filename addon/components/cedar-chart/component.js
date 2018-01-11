@@ -32,6 +32,7 @@ export default Component.extend({
         }
       }
       if (Object.keys(definition).length === 0) {
+        // no properties have been set
         return;
       }
 
@@ -77,8 +78,9 @@ export default Component.extend({
             }
           }
         }
+        this.chart.updateData(response).render();
         tryInvoke(this, 'onUpdateEnd');
-        return this.chart.updateData(response).render();
+        return this.chart;
       })
       .catch(err => {
         // an error occurred while fetching or rendering data or
