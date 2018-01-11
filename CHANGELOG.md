@@ -7,8 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - {{cedar-chart}} doesn't error if no definition properties are passed in
 - {{cedar-chart}} doesn't error if it's been destroyed before query rerturns
+- {{cedar-chart}} calls `onUpdateEnd` _after_ the chart is rendered
 ### Changed
 - updated to Ember 2.18
+- add component test for {{cedar-chart}} that actually renders a chart
 
 ## v1.0.0-beta.1
 ### Added
