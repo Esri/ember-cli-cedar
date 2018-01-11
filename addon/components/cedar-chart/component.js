@@ -31,6 +31,9 @@ export default Component.extend({
           definition[prop] = props[prop];
         }
       }
+      if (Object.keys(definition).length === 0) {
+        return;
+      }
 
       // create the chart and attach it to the dom
       this.chart = new cedar.Chart(this.elementId, definition);
@@ -61,6 +64,9 @@ export default Component.extend({
       tryInvoke(this, 'onUpdateStart');
       this.chart.query()
       .then(response => {
+        if (this.get('isDestroyed') || this.get('isDestroying')) {
+          return;
+        }
         const transform = this.get('transform');
         if (transform) {
           // call transform closure action on each response
