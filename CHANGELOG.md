@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- {{cedar-chart}} doesn't error if no definition properties are passed in
+- {{cedar-chart}} doesn't error if it's been destroyed before query rerturns
+### Changed
+- updated to Ember 2.18
+
 ## v1.0.0-beta.1
 ### Added
 - add assetBaseUrl environment config to support external assets
