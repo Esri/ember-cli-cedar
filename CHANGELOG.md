@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - {{cedar-chart}} doesn't error if no definition properties are passed in
 - {{cedar-chart}} doesn't error if it's been destroyed before query rerturns
 - {{cedar-chart}} calls `onUpdateEnd` _after_ the chart is rendered
+- don't include pdfmake.js in builds [#76](https://github.com/Esri/ember-cli-cedar/issues/76)
 ### Changed
 - updated to Ember 2.18
 - add component test for {{cedar-chart}} that actually renders a chart
