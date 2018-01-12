@@ -18,12 +18,18 @@ var path = require('path');
 var MergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 
-function getAmChartsTree (publicPath) {
+function getAmChartsTree (destDir) {
   // TODO: check this.options or env config to get location of amCharts build
   // (i.e. a licensed build), for now just get free build installed from npm
   var amchartsDir = path.dirname(require.resolve('amcharts3/amcharts/amcharts.js'));
+  // NOTE: this file is YUGE and will blow up ember production builds
+  // see https://github.com/Esri/ember-cli-cedar/issues/76
+  // it also doesn't appaer to be needed b/c
+  // at runtime amCharts loads the minified version (pdfmake.min.js) 
+  const exclude = ['plugins/export/libs/pdfmake/pdfmake.js'];
   return new Funnel(amchartsDir, {
-    destDir: publicPath
+    destDir: destDir,
+    exclude: exclude
   });
 }
 
