@@ -5,7 +5,6 @@ import cedar from 'cedar';
 
 export default Component.extend({
   classNames: ['cedar-chart'],
-  defaultTimeout: 7000,
 
   // show chart at root DOM elememt of this component
   _showChart() {
@@ -64,33 +63,50 @@ export default Component.extend({
 
       // show the chart
       tryInvoke(this, 'onUpdateStart');
-      Promise.race([this._chartTimeout(), this.chart.query()])
-        .then(response => {
-          if (this.get('isDestroyed') || this.get('isDestroying')) {
-            return;
-          }
-          const transform = this.get('transform');
-          if (transform) {
-            // call transform closure action on each response
-            for (const datasetName in response) {
-              if (response.hasOwnProperty(datasetName)) {
-                const dataset = this.chart.dataset(datasetName);
-                response[datasetName] = transform(response[datasetName], dataset);
-              }
-            }
-          }
-          this.chart.updateData(response).render();
-          tryInvoke(this, 'onUpdateEnd');
-          return this.chart;
-        }).catch(err => {
-          // an error occurred while fetching or rendering data or
-          this._handleErr(err);
-        });
+      if (this.get('timeout')) {
+        Promise.race([this._chartTimeout(), this.chart.query()])
+          .then(response => {
+            return this._queryResponse(response);
+          })
+          .catch(err => {
+            // an error occurred while fetching or rendering data or
+            this._handleErr(err);
+          });
+      } else {
+        this.chart.query()
+          .then(response => {
+            return this._queryResponse(response);
+          })
+          .catch(err => {
+            // an error occurred while fetching or rendering data or
+            this._handleErr(err);
+          })
+      }
     }
     catch (err) {
       // an error occurred while creating the cart
       this._handleErr(err);
     }
+  },
+
+  // Handle query response
+  _queryResponse (response) {
+    if (this.get('isDestroyed') || this.get('isDestroying')) {
+      return;
+    }
+    const transform = this.get('transform');
+    if (transform) {
+      // call transform closure action on each response
+      for (const datasetName in response) {
+        if (response.hasOwnProperty(datasetName)) {
+          const dataset = this.chart.dataset(datasetName);
+          response[datasetName] = transform(response[datasetName], dataset);
+        }
+      }
+    }
+    this.chart.updateData(response).render();
+    tryInvoke(this, 'onUpdateEnd');
+    return this.chart;
   },
 
   // remove any event handlers and destroy the chart if it exists
@@ -115,9 +131,9 @@ export default Component.extend({
   },
 
   _chartTimeout () {
-    const chartTimeout = this.get('timeout') || this.get('defaultTimeout');
+    const chartTimeout = this.get('timeout');
     return new Promise((resolve, reject) => {
-      later(reject, 'timeout', chartTimeout);
+      later(reject, 'The queries to the service(s) are not responding within the designated timeout period.', chartTimeout);
     });
   },
 

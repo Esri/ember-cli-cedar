@@ -63,7 +63,7 @@ test('It generates a chart properly', function (assert) {
 test('It properly timesout', function (assert) {
   let done = assert.async();
   this.on('onError', function (err) {
-    assert.equal(err, 'timeout', 'chart was rendered');
+    assert.equal(err, 'The queries to the service(s) are not responding within the designated timeout period.', 'chart was rendered');
     done();
   });
 
@@ -94,6 +94,6 @@ test('It properly timesout', function (assert) {
       }
     ]
   });
-  this.set('timeout', 2);
+  this.set('timeout', 50);
   this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError')}}`);
 });
