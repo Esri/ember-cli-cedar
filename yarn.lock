@@ -105,17 +105,7 @@ align-text@^0.1.1, align-text@^0.1.3:
     longest "^1.0.1"
     repeat-string "^1.5.2"
 
-alter@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/alter/-/alter-0.2.0.tgz#c7588808617572034aae62480af26b1d4d1cb3cd"
-  dependencies:
-    stable "~0.1.3"
-
-amcharts3@^3.21.12:
-  version "3.21.12"
-  resolved "https://registry.yarnpkg.com/amcharts3/-/amcharts3-3.21.12.tgz#8c2b592a94405932c078f461944c847a8b289806"
-
-amcharts3@amcharts/amcharts3:
+amcharts3@^3.21.12, amcharts3@amcharts/amcharts3:
   version "3.21.12"
   resolved "https://codeload.github.com/amcharts/amcharts3/tar.gz/2fa0269779665bea270ddda447b4cc59418e999b"
 

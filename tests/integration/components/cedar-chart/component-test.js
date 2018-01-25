@@ -96,6 +96,6 @@ test('It properly timesout', function (assert) {
       }
     ]
   });
-  this.set('timeout', 1);
+  this.set('timeout', 2);
   this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError') onUpdateEnd=(action 'updateEnd')}}`);
 });
