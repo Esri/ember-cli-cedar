@@ -115,7 +115,7 @@ amcharts3@^3.21.12:
   version "3.21.12"
   resolved "https://registry.yarnpkg.com/amcharts3/-/amcharts3-3.21.12.tgz#8c2b592a94405932c078f461944c847a8b289806"
 
-"amcharts3@github:amcharts/amcharts3":
+amcharts3@amcharts/amcharts3:
   version "3.21.12"
   resolved "https://codeload.github.com/amcharts/amcharts3/tar.gz/2fa0269779665bea270ddda447b4cc59418e999b"
 

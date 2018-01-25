@@ -29,3 +29,19 @@
   invalidSpecMessage="invalidSpecMessage is no longer used and should show a deprecation"
   onError=(action 'showError2')
 }}
+<p>Example of a timeout</p>
+<pre>\{{cedar-chart
+  type=model.type
+  datasets=invalidUrlDataset
+  series=model.series
+  timeout=timeout
+  onError=(action 'showError3')
+}}</pre>
+<div class="alert alert-danger">{{errorMessage3}}</div>
+{{cedar-chart
+  type=model.type
+  datasets=invalidUrlDataset
+  series=model.series
+  timeout=timeout
+  onError=(action 'showError3')
+}}

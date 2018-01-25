@@ -1,10 +1,11 @@
-import { scheduleOnce } from '@ember/runloop';
+import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
 
 export default Component.extend({
   classNames: ['cedar-chart'],
+  defaultTimeout: 7000,
 
   // show chart at root DOM elememt of this component
   _showChart() {
@@ -63,31 +64,31 @@ export default Component.extend({
 
       // show the chart
       tryInvoke(this, 'onUpdateStart');
-      this.chart.query()
-      .then(response => {
-        if (this.get('isDestroyed') || this.get('isDestroying')) {
-          return;
-        }
-        const transform = this.get('transform');
-        if (transform) {
-          // call transform closure action on each response
-          for (const datasetName in response) {
-            if (response.hasOwnProperty(datasetName)) {
-              const dataset = this.chart.dataset(datasetName);
-              response[datasetName] = transform(response[datasetName], dataset);
+      Promise.race([this._chartTimeout(), this.chart.query()])
+        .then(response => {
+          if (this.get('isDestroyed') || this.get('isDestroying')) {
+            return;
+          }
+          const transform = this.get('transform');
+          if (transform) {
+            // call transform closure action on each response
+            for (const datasetName in response) {
+              if (response.hasOwnProperty(datasetName)) {
+                const dataset = this.chart.dataset(datasetName);
+                response[datasetName] = transform(response[datasetName], dataset);
+              }
             }
           }
-        }
-        this.chart.updateData(response).render();
-        tryInvoke(this, 'onUpdateEnd');
-        return this.chart;
-      })
-      .catch(err => {
-        // an error occurred while fetching or rendering data or
-        this._handleErr(err);
-      });
+          this.chart.updateData(response).render();
+          tryInvoke(this, 'onUpdateEnd');
+          return this.chart;
+        }, (err) => {
+          // an error occurred while fetching or rendering data or
+          this._handleErr(err);
+          tryInvoke(this, 'onUpdateEnd');
+        });
     }
-    catch(err) {
+    catch (err) {
       // an error occurred while creating the cart
       this._handleErr(err);
     }
@@ -112,6 +113,13 @@ export default Component.extend({
     } else {
       throw(err);
     }
+  },
+
+  _chartTimeout () {
+    const chartTimeout = this.get('timeout') || this.get('defaultTimeout');
+    return new Promise((resolve, reject) => {
+      later(reject, 'timeout', chartTimeout);
+    });
   },
 
   didReceiveAttrs () {
