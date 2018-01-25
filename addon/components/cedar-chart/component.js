@@ -82,10 +82,9 @@ export default Component.extend({
           this.chart.updateData(response).render();
           tryInvoke(this, 'onUpdateEnd');
           return this.chart;
-        }, (err) => {
+        }).catch(err => {
           // an error occurred while fetching or rendering data or
           this._handleErr(err);
-          tryInvoke(this, 'onUpdateEnd');
         });
     }
     catch (err) {

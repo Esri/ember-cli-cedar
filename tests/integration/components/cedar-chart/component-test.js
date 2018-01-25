@@ -64,11 +64,9 @@ test('It properly timesout', function (assert) {
   let done = assert.async();
   this.on('onError', function (err) {
     assert.equal(err, 'timeout', 'chart was rendered');
-  });
-  this.on('updateEnd', function () {
-    assert.equal(this.$('.amcharts-main-div').length, 0, 'chart was rendered');
     done();
   });
+
   this.set('definition', {
     'type': 'bar',
     'datasets': [
@@ -97,5 +95,5 @@ test('It properly timesout', function (assert) {
     ]
   });
   this.set('timeout', 2);
-  this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError') onUpdateEnd=(action 'updateEnd')}}`);
+  this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError')}}`);
 });
