@@ -67,6 +67,11 @@ test('It properly timesout', function (assert) {
     done();
   });
 
+  this.on('updateEnd', function () {
+    assert.ok(false, 'should not have called onUpdateEnd');
+    done();
+  });
+
   this.set('definition', {
     'type': 'bar',
     'datasets': [
@@ -94,6 +99,6 @@ test('It properly timesout', function (assert) {
       }
     ]
   });
-  this.set('timeout', 50);
-  this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError')}}`);
+  this.set('timeout', 1);
+  this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError') onUpdateEnd=(action 'updateEnd')}}`);
 });
