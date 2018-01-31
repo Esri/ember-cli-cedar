@@ -2,6 +2,7 @@ import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
+import { Promise } from 'rsvp';
 
 export default Component.extend({
   classNames: ['cedar-chart'],
