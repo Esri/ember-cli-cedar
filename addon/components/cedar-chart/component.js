@@ -1,12 +1,22 @@
-import { scheduleOnce } from '@ember/runloop';
+import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
+import { Promise } from 'rsvp';
+
+// reject with an error after so many milliseconds
+function rejectAfter (milliseconds, err) {
+  return new Promise((resolve, reject) => {
+    later(reject, err, milliseconds);
+  });
+}
 
 export default Component.extend({
   classNames: ['cedar-chart'],
 
-  // show chart at root DOM elememt of this component
+  timeoutErrorMessage: 'The queries to the service(s) are not responding within the designated timeout period.',
+
+  // show chart at root DOM element of this component
   _showChart() {
     if (this.isDestroyed || this.isDestroying) {
       return;
@@ -60,37 +70,44 @@ export default Component.extend({
       // if (this.chart.type === 'pie') {
       //   options.autolabels = false;
       // }
-
-      // show the chart
-      tryInvoke(this, 'onUpdateStart');
-      this.chart.query()
-      .then(response => {
-        if (this.get('isDestroyed') || this.get('isDestroying')) {
-          return;
-        }
-        const transform = this.get('transform');
-        if (transform) {
-          // call transform closure action on each response
-          for (const datasetName in response) {
-            if (response.hasOwnProperty(datasetName)) {
-              const dataset = this.chart.dataset(datasetName);
-              response[datasetName] = transform(response[datasetName], dataset);
-            }
-          }
-        }
-        this.chart.updateData(response).render();
-        tryInvoke(this, 'onUpdateEnd');
-        return this.chart;
-      })
-      .catch(err => {
-        // an error occurred while fetching or rendering data or
-        this._handleErr(err);
-      });
-    }
-    catch(err) {
+    } catch (err) {
       // an error occurred while creating the cart
       this._handleErr(err);
+      return;
     }
+
+    // query the data and show the chart
+    tryInvoke(this, 'onUpdateStart');
+    const timeout = this.get('timeout');
+    let queryPromise;
+    if (timeout) {
+      const timeoutErrorMessage = this.get('timeoutErrorMessage');
+      queryPromise = Promise.race([rejectAfter(timeout, timeoutErrorMessage), this.chart.query()]);
+    } else {
+      queryPromise = this.chart.query();
+    }
+    queryPromise.then(response => {
+      if (this.get('isDestroyed') || this.get('isDestroying')) {
+        return;
+      }
+      const transform = this.get('transform');
+      if (transform) {
+        // call transform closure action on each response
+        for (const datasetName in response) {
+          if (response.hasOwnProperty(datasetName)) {
+            const dataset = this.chart.dataset(datasetName);
+            response[datasetName] = transform(response[datasetName], dataset);
+          }
+        }
+      }
+      // render the chart
+      this.chart.updateData(response).render();
+      tryInvoke(this, 'onUpdateEnd');
+      return this.chart;
+    }).catch(err => {
+      // an error occurred while fetching, transforming or rendering data
+      this._handleErr(err);
+    });
   },
 
   // remove any event handlers and destroy the chart if it exists
