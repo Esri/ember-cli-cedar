@@ -14,6 +14,8 @@ function rejectAfter (milliseconds, err) {
 export default Component.extend({
   classNames: ['cedar-chart'],
 
+  timeoutErrorMessage: 'The queries to the service(s) are not responding within the designated timeout period.',
+
   // show chart at root DOM element of this component
   _showChart() {
     if (this.isDestroyed || this.isDestroying) {
@@ -79,8 +81,8 @@ export default Component.extend({
     const timeout = this.get('timeout');
     let queryPromise;
     if (timeout) {
-      const timeoutErr = 'The queries to the service(s) are not responding within the designated timeout period.';
-      queryPromise = Promise.race([rejectAfter(timeout, timeoutErr), this.chart.query()]);
+      const timeoutErrorMessage = this.get('timeoutErrorMessage');
+      queryPromise = Promise.race([rejectAfter(timeout, timeoutErrorMessage), this.chart.query()]);
     } else {
       queryPromise = this.chart.query();
     }
