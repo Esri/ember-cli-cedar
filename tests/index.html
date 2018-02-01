@@ -21,6 +21,13 @@
     {{content-for "body"}}
     {{content-for "test-body"}}
 
+    <!--
+      TODO: instead of loading fetch-mock from the CDN install it and
+      either serve from the public tree when testing or import it in test-support.js like:
+      https://guides.emberjs.com/v2.13.0/addons-and-dependencies/managing-dependencies/#toc_environment-specific-assets
+    -->
+    <script src="https://unpkg.com/fetch-mock@6.0.0/es5/client-bundle.js"></script>
+
     <script src="/testem.js" integrity=""></script>
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/test-support.js"></script>

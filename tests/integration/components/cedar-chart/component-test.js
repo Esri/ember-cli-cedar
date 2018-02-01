@@ -1,8 +1,16 @@
+/* global fetchMock */
 import { moduleForComponent, test } from 'ember-qunit';
+import { later } from '@ember/runloop';
+import { Promise } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
+import { bar } from '../../../mock/definitions';
+import { schoolsResponse } from '../../../mock/responses';
 
 moduleForComponent('cedar-chart', 'Integration | Component | cedar chart', {
-  integration: true
+  integration: true,
+  afterEach () {
+    fetchMock.restore();
+  }
 });
 
 test('it renders with no props set', function(assert) {
@@ -26,79 +34,36 @@ test('it renders with no props set', function(assert) {
 
 test('It generates a chart properly', function (assert) {
   let done = assert.async();
-  this.on('updateEnd', function () {
+
+  this.set('definition', bar);
+  this.on('updateEnd', function() {
     assert.equal(this.$('.amcharts-main-div').length, 1, 'chart was rendered');
     done();
   });
-  this.set('definition', {
-    'type': 'bar',
-    'datasets': [
-      {
-        'url': 'https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0',
-        'name': 'Number_of_SUM',
-        'query': {
-          'orderByFields': 'Number_of_SUM DESC',
-          'groupByFieldsForStatistics': 'Type',
-          'outStatistics': [
-            {
-              'statisticType': 'sum',
-              'onStatisticField': 'Number_of',
-              'outStatisticFieldName': 'Number_of_SUM'
-            }
-          ]
-        }
-      }
-    ],
-    'series': [
-      {
-        'category': {'field': 'Type', 'label': 'Type'},
-        'value': {'field': 'Number_of_SUM', 'label': 'Number of Students'},
-        'source': 'Number_of_SUM'
-      }
-    ]
-  });
-  this.render(hbs`{{cedar-chart definition=definition onUpdateEnd=(action 'updateEnd')}}`);
+  // mock feature service response
+  fetchMock.post(`begin:${bar.datasets[0].url}`, schoolsResponse);
+  this.render(hbs `{{cedar-chart definition=definition onUpdateEnd=(action 'updateEnd')}}`);
 });
 
-test('It properly timesout', function (assert) {
+test('It throws an error if no response before timeout', function (assert) {
   let done = assert.async();
-  this.on('onError', function (err) {
-    assert.equal(err, 'The queries to the service(s) are not responding within the designated timeout period.', 'chart was rendered');
+  // we expect a timeout error w/in 100ms
+  assert.timeout(300);
+
+  this.setProperties({
+    definition: bar,
+    // should error after 100ms
+    timeout: 100
+  });
+  this.on('onError', function(err) {
+    assert.equal(err, 'The queries to the service(s) are not responding within the designated timeout period.', 'chart timed out');
     done();
   });
-
-  this.on('updateEnd', function () {
-    assert.ok(false, 'should not have called onUpdateEnd');
-    done();
+  // mock feature service response after 200ms
+  fetchMock.post(`begin:${bar.datasets[0].url}`, function () {
+    return new Promise((resolve) => {
+      later(resolve, schoolsResponse, 200);
+    });
   });
-
-  this.set('definition', {
-    'type': 'bar',
-    'datasets': [
-      {
-        'url': 'https://services.arcgis.com/uDTUpUPbk8X8mXwl/arcgis/rest/services/Public_Schools_in_Onondaga_County/FeatureServer/0',
-        'name': 'Number_of_SUM',
-        'query': {
-          'orderByFields': 'Number_of_SUM DESC',
-          'groupByFieldsForStatistics': 'Type',
-          'outStatistics': [
-            {
-              'statisticType': 'sum',
-              'onStatisticField': 'Number_of',
-              'outStatisticFieldName': 'Number_of_SUM'
-            }
-          ]
-        }
-      }
-    ],
-    'series': [
-      {
-        'category': {'field': 'Type', 'label': 'Type'},
-        'value': {'field': 'Number_of_SUM', 'label': 'Number of Students'},
-        'source': 'Number_of_SUM'
-      }
-    ]
-  });
-  this.set('timeout', 1);
-  this.render(hbs`{{cedar-chart definition=definition timeout=timeout onError=(action 'onError') onUpdateEnd=(action 'updateEnd')}}`);
+  this.render(hbs `{{cedar-chart definition=definition timeout=timeout onError=(action 'onError')}}`);
 });
