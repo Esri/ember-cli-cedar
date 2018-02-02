@@ -56,7 +56,8 @@ test('It throws an error if no response before timeout', function (assert) {
     timeout: 100
   });
   this.on('onError', function(err) {
-    assert.equal(err, 'The queries to the service(s) are not responding within the designated timeout period.', 'chart timed out');
+    const msg = err.message || err;
+    assert.equal(msg, 'The queries to the service(s) are not responding within the designated timeout period.', 'chart timed out');
     done();
   });
   // mock feature service response after 200ms
