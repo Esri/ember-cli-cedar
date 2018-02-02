@@ -5,9 +5,9 @@ import cedar from 'cedar';
 import { Promise } from 'rsvp';
 
 // reject with an error after so many milliseconds
-function rejectAfter (milliseconds, err) {
+function rejectAfter (milliseconds, errorMessage) {
   return new Promise((resolve, reject) => {
-    later(reject, err, milliseconds);
+    later(reject, new Error(errorMessage), milliseconds);
   });
 }
 
@@ -81,8 +81,9 @@ export default Component.extend({
     const timeout = this.get('timeout');
     let queryPromise;
     if (timeout) {
-      const timeoutErrorMessage = this.get('timeoutErrorMessage');
-      queryPromise = Promise.race([rejectAfter(timeout, timeoutErrorMessage), this.chart.query()]);
+      // reject if the query results don't return before the timeout
+      const timeoutPromise = rejectAfter(timeout, this.get('timeoutErrorMessage'));
+      queryPromise = Promise.race([timeoutPromise, this.chart.query()]);
     } else {
       queryPromise = this.chart.query();
     }
