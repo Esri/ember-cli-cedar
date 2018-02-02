@@ -17,7 +17,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - add component test for {{cedar-chart}} that actually renders a chart
 - bumped @esri/cedar to beta.1 and removed unused amcharts
 - using yarn instead of npm
-
+- dummy app runs in IE11 by polyfilling Promise/fetch
 ## v1.0.0-beta.1
 ### Added
 - add assetBaseUrl environment config to support external assets
