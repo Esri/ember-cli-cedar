@@ -19,6 +19,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - using yarn instead of npm
 - dummy app runs in IE11 by polyfilling Promise/fetch
 - update to @esri/cedar to help support IE11
+- re-add lost ember-cli-release
 ## v1.0.0-beta.1
 ### Added
 - add assetBaseUrl environment config to support external assets
