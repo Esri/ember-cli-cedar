@@ -26,21 +26,21 @@
   dependencies:
     tslib "^1.7.1"
 
-"@esri/cedar-amcharts@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@esri/cedar-amcharts/-/cedar-amcharts-1.0.0-beta.3.tgz#fbb5436b94696d813147437c73d05ffaa6f21b5b"
+"@esri/cedar-amcharts@^1.0.0-beta.4":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@esri/cedar-amcharts/-/cedar-amcharts-1.0.0-beta.4.tgz#bf38af44916c3503145d348ce2b9812a472bc91c"
   dependencies:
     amcharts3 "^3.21.12"
     deepmerge "^1.5.2"
 
-"@esri/cedar@^1.0.0-beta.3":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@esri/cedar/-/cedar-1.0.0-beta.3.tgz#8fc3cd5ea9713db4f56c249b7229f33ac6060d22"
+"@esri/cedar@1.0.0-beta.4":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@esri/cedar/-/cedar-1.0.0-beta.4.tgz#8f2fc4033beb567f45d65304dd993026af765207"
   dependencies:
     "@esri/arcgis-rest-common-types" "^1.1.1"
     "@esri/arcgis-rest-feature-service" "^1.1.1"
     "@esri/arcgis-rest-request" "^1.1.1"
-    "@esri/cedar-amcharts" "^1.0.0-beta.3"
+    "@esri/cedar-amcharts" "^1.0.0-beta.4"
 
 "@glimmer/di@^0.2.0":
   version "0.2.0"
