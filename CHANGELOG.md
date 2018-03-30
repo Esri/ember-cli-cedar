@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## v1.0.0-beta.3
 ### Added
 - bump to [cedar@v1.0.0-beta.3](https://github.com/Esri/cedar/releases/tag/v1.0.0-beta.3)
 
