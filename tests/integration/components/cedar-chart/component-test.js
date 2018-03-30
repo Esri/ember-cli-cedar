@@ -41,7 +41,7 @@ test('It generates a chart properly', function (assert) {
     done();
   });
   // mock feature service response
-  fetchMock.post(`begin:${bar.datasets[0].url}`, schoolsResponse);
+  fetchMock.get(`begin:${bar.datasets[0].url}`, schoolsResponse);
   this.render(hbs `{{cedar-chart definition=definition onUpdateEnd=(action 'updateEnd')}}`);
 });
 
@@ -61,7 +61,7 @@ test('It throws an error if no response before timeout', function (assert) {
     done();
   });
   // mock feature service response after 200ms
-  fetchMock.post(`begin:${bar.datasets[0].url}`, function () {
+  fetchMock.get(`begin:${bar.datasets[0].url}`, function () {
     return new Promise((resolve) => {
       later(resolve, schoolsResponse, 200);
     });
