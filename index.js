@@ -25,7 +25,7 @@ function getAmChartsTree (destDir) {
   // NOTE: this file is YUGE and will blow up ember production builds
   // see https://github.com/Esri/ember-cli-cedar/issues/76
   // it also doesn't appaer to be needed b/c
-  // at runtime amCharts loads the minified version (pdfmake.min.js) 
+  // at runtime amCharts loads the minified version (pdfmake.min.js)
   const exclude = ['plugins/export/libs/pdfmake/pdfmake.js'];
   return new Funnel(amchartsDir, {
     destDir: destDir,
@@ -52,17 +52,28 @@ module.exports = {
     }
     // bundle cedar scripts from vendor folder
     this.import('vendor/cedar/themes/amCharts/calcite.js');
+    this.import('vendor/@esri/arcgis-rest-request/arcgis-rest-request.umd.js');
+    this.import('vendor/@esri/arcgis-rest-feature-service/arcgis-rest-feature-service.umd.js');
     this.import('vendor/cedar/cedar.js');
     this.import('vendor/shims/cedar.js');
   },
 
   treeForVendor (vendorTree) {
+    // copy arcgis-rest-js dist files to vendor
+    var arcgisRestRequestTree = new Funnel(path.dirname(require.resolve('@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.js')), {
+      files: ['arcgis-rest-request.umd.js', 'arcgis-rest-request.umd.js.map'],
+      destDir: '@esri/arcgis-rest-request'
+    });
+    var arcgisRestFeatureServiceTree = new Funnel(path.dirname(require.resolve('@esri/arcgis-rest-feature-service/dist/umd/arcgis-rest-feature-service.umd.js')), {
+      files: ['arcgis-rest-feature-service.umd.js', 'arcgis-rest-feature-service.umd.js.map'],
+      destDir: '@esri/arcgis-rest-feature-service'
+    });
     // copy cedar dist files to vendor folder
     var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
       files: ['cedar.js', 'cedar.js.map', 'themes/amCharts/calcite.js'],
       destDir: 'cedar'
     });
-    var treesToMerge = [vendorTree, cedarTree];
+    var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
     var publicPath = this.amChartsOptions.publicPath;
     if (publicPath && this.hasAmChartsImports) {
       var amchartsTree = getAmChartsTree(publicPath);
