@@ -13,6 +13,7 @@ export default Route.extend({
       return response.json()
       .then(definition => {
         const title = `${capitalize(params.slug)} Example`;
+        definition.legend = { visible: true};
         return {
           title,
           definition,
