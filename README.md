@@ -23,6 +23,8 @@ This addon exposes the `{{cedar-chart}}` component that you can use to declarati
   datasets=model.datasets
   series=model.series
   overrides=model.overrides
+  legend=model.legend
+  style=model.style
   onError=(action 'showError')
 }}
 ```

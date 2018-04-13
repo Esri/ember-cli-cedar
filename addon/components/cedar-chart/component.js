@@ -29,7 +29,7 @@ export default Component.extend({
     try {
       // get chart constructor options from properties and create the chart
       // TODO: tooltip as property
-      const supportedProps = ['type', 'datasets', 'series', 'overrides'];
+      const supportedProps = ['type', 'datasets', 'series', 'overrides', 'legend', 'style'];
       const props = this.getProperties(supportedProps);
       const definition = this.getWithDefault('definition', {});
 
