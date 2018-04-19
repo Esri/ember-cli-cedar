@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- bump to [cedar@v1.0.0-beta.6](https://github.com/Esri/cedar/releases/tag/v1.0.0-beta.6)
+
 ## v1.0.0-beta.5
 ### Added
 - Legend and style now added to api
