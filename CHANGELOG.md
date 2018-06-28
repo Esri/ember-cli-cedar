@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Changed
+- Bump to cedar@v1.0.0-beta.8
+
 ## v1.0.0-beta.7
 ### Changed
 - use latest arcgis-rest.js library, with new filenames
