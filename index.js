@@ -24,13 +24,20 @@ function getAmChartsTree (destDir) {
   var amchartsDir = path.dirname(require.resolve('amcharts3/amcharts/amcharts.js'));
   // NOTE: this file is YUGE and will blow up ember production builds
   // see https://github.com/Esri/ember-cli-cedar/issues/76
-  // it also doesn't appaer to be needed b/c
+  // it also doesn't appear to be needed b/c
   // at runtime amCharts loads the minified version (pdfmake.min.js)
   const exclude = ['plugins/export/libs/pdfmake/pdfmake.js'];
-  return new Funnel(amchartsDir, {
+  const amchartsTree = new Funnel(amchartsDir, {
     destDir: destDir,
     exclude: exclude
   });
+  // copy cedar's calcite theme to the amCharts theme folder
+  const calciteThemeDir = path.dirname(require.resolve('@esri/cedar/dist/umd/themes/amCharts/calcite.js'));
+  const calciteThemeTree = new Funnel(calciteThemeDir, {
+    files: ['calcite.js'],
+    destDir: path.join(destDir, 'themes')
+  });
+  return MergeTrees([amchartsTree, calciteThemeTree]);
 }
 
 module.exports = {
@@ -51,7 +58,6 @@ module.exports = {
       });
     }
     // bundle cedar scripts from vendor folder
-    this.import('vendor/cedar/themes/amCharts/calcite.js');
     this.import('vendor/@esri/arcgis-rest-request/request.umd.js');
     this.import('vendor/@esri/arcgis-rest-feature-service/feature-service.umd.js');
     this.import('vendor/cedar/cedar.js');
@@ -70,7 +76,7 @@ module.exports = {
     });
     // copy cedar dist files to vendor folder
     var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
-      files: ['cedar.js', 'cedar.js.map', 'themes/amCharts/calcite.js'],
+      files: ['cedar.js', 'cedar.js.map'],
       destDir: 'cedar'
     });
     var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
@@ -88,6 +94,7 @@ module.exports = {
     if (publicPath) {
       // copy amCharts dist files to public folder so that
       // it can dynamically load resources like images, styles, and scripts  at runtime
+      // and so we can lazy load the scripts if configured to do so
       var amchartsTree = getAmChartsTree(publicPath);
       if (node) {
         return new MergeTrees([node, amchartsTree]);

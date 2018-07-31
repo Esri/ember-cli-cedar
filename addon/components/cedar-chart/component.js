@@ -1,13 +1,38 @@
+import { getOwner } from '@ember/application';
 import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
-import { Promise } from 'rsvp';
+import { Promise, allSettled, resolve } from 'rsvp';
+
+// TODO: move these to utils
 
 // reject with an error after so many milliseconds
 function rejectAfter (milliseconds, errorMessage) {
   return new Promise((resolve, reject) => {
     later(reject, new Error(errorMessage), milliseconds);
+  });
+}
+
+// lazy load a script
+function loadScript(src) {
+  return new Promise(resolve => {
+    const script = document.createElement('script');
+    script.onload = resolve;
+    script.src = src;    
+    document.head.appendChild(script);
+  });
+}
+
+// lazy load a stylesheet
+function loadStylesheet(href) {
+  return new Promise(resolve => {
+    const link = document.createElement('link');
+    link.onload = resolve;
+    link.rel = 'stylesheet'
+    link.type = 'text/css';
+    link.href = href;
+    document.head.appendChild(link);
   });
 }
 
@@ -76,41 +101,71 @@ export default Component.extend({
       return;
     }
 
-    // query the data and show the chart
-    tryInvoke(this, 'onUpdateStart');
-    const timeout = this.get('timeout');
-    let queryPromise;
-    if (timeout) {
-      // reject if the query results don't return before the timeout
-      const timeoutPromise = rejectAfter(timeout, this.get('timeoutErrorMessage'));
-      queryPromise = Promise.race([timeoutPromise, this.chart.query()]);
-    } else {
-      queryPromise = this.chart.query();
-    }
-    queryPromise.then(response => {
-      if (this.get('isDestroyed') || this.get('isDestroying')) {
-        return;
+    // ensure AmCharts scripts are loaded
+    this._loadAmCharts().then(() => {
+      // query the data and show the chart
+      tryInvoke(this, 'onUpdateStart');
+      const timeout = this.get('timeout');
+      let queryPromise;
+      if (timeout) {
+        // reject if the query results don't return before the timeout
+        const timeoutPromise = rejectAfter(timeout, this.get('timeoutErrorMessage'));
+        queryPromise = Promise.race([timeoutPromise, this.chart.query()]);
+      } else {
+        queryPromise = this.chart.query();
       }
-      const transform = this.get('transform');
-      if (transform) {
-        // call transform closure action on each response
-        for (const datasetName in response) {
-          if (response.hasOwnProperty(datasetName)) {
-            const dataset = this.chart.dataset(datasetName);
-            response[datasetName] = transform(response[datasetName], dataset);
+      queryPromise.then(response => {
+        if (this.get('isDestroyed') || this.get('isDestroying')) {
+          return;
+        }
+        const transform = this.get('transform');
+        if (transform) {
+          // call transform closure action on each response
+          for (const datasetName in response) {
+            if (response.hasOwnProperty(datasetName)) {
+              const dataset = this.chart.dataset(datasetName);
+              response[datasetName] = transform(response[datasetName], dataset);
+            }
           }
         }
-      }
-      // render the chart
-      this.chart.updateData(response).render();
-      tryInvoke(this, 'onUpdateEnd');
-      return this.chart;
-    }).catch(err => {
-      // an error occurred while fetching, transforming or rendering data
-      this._handleErr(err);
-    });
+        // render the chart
+        this.chart.updateData(response).render();
+        tryInvoke(this, 'onUpdateEnd');
+        return this.chart;
+      }).catch(err => {
+        // an error occurred while fetching, transforming or rendering data
+        this._handleErr(err);
+      });
+    });    
   },
 
+  _loadAmCharts() {
+    if (window.AmCharts) {
+      return resolve();
+    } else {
+      const ENV = getOwner(this).resolveRegistration('config:environment');
+      const imports = ENV && ENV.cedar && ENV.cedar.imports;
+      // TODO: reject if no imports?
+  
+      // load all the AmCharts scripts
+      // NOTE: the AmCharts path is set in contentFor('head')
+      const path = window && window.AmCharts_path;
+      const fileNames = imports.concat();
+      // starting w/ AmCharts itself
+      const amchartsFileName = fileNames.shift();
+      return loadScript(`${path}/${amchartsFileName}`)
+      .then(() => {
+        // load the remaining scripts
+        return allSettled(fileNames.map(fileName => {
+          const isScript = /\.js$/.test(fileName);
+          return isScript
+            ? loadScript(`${path}/${fileName}`)
+            : loadStylesheet(`${path}/${fileName}`);
+        }));  
+      });
+    }
+  },
+    
   // remove any event handlers and destroy the chart if it exists
   _destroyChart () {
     if (this.chart) {
