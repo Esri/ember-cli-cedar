@@ -144,7 +144,7 @@ export default Component.extend({
       return resolve();
     } else {
       const ENV = getOwner(this).resolveRegistration('config:environment');
-      const imports = ENV && ENV.cedar && ENV.cedar.imports;
+      const imports = ENV && ENV.cedar && ENV.cedar.amCharts && ENV.cedar.amCharts.imports;
       // TODO: reject if no imports?
   
       // load all the AmCharts scripts
