@@ -29,6 +29,17 @@ This addon exposes the `{{cedar-chart}}` component that you can use to declarati
 }}
 ```
 
+### Service
+
+This addon exposes the `cedar-loader` service that you can use to manually lazy-load cedar dependencies. This can be useful if you want to implement your own chart component instead of using [`{{cedar-chart}}`](#component). The service exposes a single function `loadDependencies()` which returns a `Promise` that will resolve with the `cedar` global once the dependencies have been loaded.
+
+```js
+  this.get('cedarLoader').loadDependencies().then(cedar => {
+    // now you can safely use cedar
+    this.chart = new cedar.Chart(this.elementId, definition);
+  });
+```
+
 ### Shim
 
 This addon also exposes a shim you can use to work w/ the cedar library directly:
@@ -38,6 +49,8 @@ import cedar from 'cedar';
 
 this.chart = new cedar.Chart(this.elementId, definition);
 ```
+
+NOTE: If you will be [lazy-loading cedar's dependencies](#dependencies), you should probably use the [service](#service) instead the shim.
 
 ### v0.x
 

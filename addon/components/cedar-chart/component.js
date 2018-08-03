@@ -1,12 +1,11 @@
-import { getOwner } from '@ember/application';
 import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
-import { Promise, allSettled, resolve } from 'rsvp';
+import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
 
-// TODO: move these to utils
-
+// TODO: move this to utils
 // reject with an error after so many milliseconds
 function rejectAfter (milliseconds, errorMessage) {
   return new Promise((resolve, reject) => {
@@ -14,30 +13,10 @@ function rejectAfter (milliseconds, errorMessage) {
   });
 }
 
-// lazy load a script
-function loadScript(src) {
-  return new Promise(resolve => {
-    const script = document.createElement('script');
-    script.onload = resolve;
-    script.src = src;    
-    document.head.appendChild(script);
-  });
-}
-
-// lazy load a stylesheet
-function loadStylesheet(href) {
-  return new Promise(resolve => {
-    const link = document.createElement('link');
-    link.onload = resolve;
-    link.rel = 'stylesheet'
-    link.type = 'text/css';
-    link.href = href;
-    document.head.appendChild(link);
-  });
-}
-
 export default Component.extend({
   classNames: ['cedar-chart'],
+
+  cedarLoader: service(),
 
   timeoutErrorMessage: 'The queries to the service(s) are not responding within the designated timeout period.',
 
@@ -101,8 +80,8 @@ export default Component.extend({
       return;
     }
 
-    // ensure AmCharts scripts are loaded
-    this._loadAmCharts().then(() => {
+    // ensure cedar dependencies are loaded before rendering the chart
+    this.get('cedarLoader').loadDependencies().then(() => {
       // query the data and show the chart
       tryInvoke(this, 'onUpdateStart');
       const timeout = this.get('timeout');
@@ -139,33 +118,6 @@ export default Component.extend({
     });    
   },
 
-  _loadAmCharts() {
-    if (window.AmCharts) {
-      return resolve();
-    } else {
-      const ENV = getOwner(this).resolveRegistration('config:environment');
-      const imports = ENV && ENV.cedar && ENV.cedar.amCharts && ENV.cedar.amCharts.imports;
-      // TODO: reject if no imports?
-  
-      // load all the AmCharts scripts
-      // NOTE: the AmCharts path is set in contentFor('head')
-      const path = window && window.AmCharts_path;
-      const fileNames = imports.concat();
-      // starting w/ AmCharts itself
-      const amchartsFileName = fileNames.shift();
-      return loadScript(`${path}/${amchartsFileName}`)
-      .then(() => {
-        // load the remaining scripts
-        return allSettled(fileNames.map(fileName => {
-          const isScript = /\.js$/.test(fileName);
-          return isScript
-            ? loadScript(`${path}/${fileName}`)
-            : loadStylesheet(`${path}/${fileName}`);
-        }));  
-      });
-    }
-  },
-    
   // remove any event handlers and destroy the chart if it exists
   _destroyChart () {
     if (this.chart) {
