@@ -93,7 +93,7 @@ export default Component.extend({
       } else {
         queryPromise = this.chart.query();
       }
-      queryPromise.then(response => {
+      return queryPromise.then(response => {
         if (this.get('isDestroyed') || this.get('isDestroying')) {
           return;
         }
@@ -111,12 +111,13 @@ export default Component.extend({
         this.chart.updateData(response).render();
         tryInvoke(this, 'onUpdateEnd');
         return this.chart;
-      }).catch(err => {
-        // an error occurred while fetching, transforming or rendering data
-        this._handleErr(err);
       });
-    });    
-  },
+    }).catch(err => {
+      // an error occurred while loading dependencies
+      // or fetching, transforming or rendering data
+      this._handleErr(err);
+    });
+},
 
   // remove any event handlers and destroy the chart if it exists
   _destroyChart () {
