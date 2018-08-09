@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
-import { Promise, allSettled, resolve } from 'rsvp';
+import { Promise, allSettled, resolve, reject } from 'rsvp';
 import cedar from 'cedar';
 
 // TODO: move these to utils and test
@@ -28,6 +28,9 @@ function loadStylesheet(href) {
 }
 
 function loadAmChartsFiles(path, fileNames) {
+  if (!path) {
+    return reject(new Error('You must set AmCharts_path global in order to lazy-load AmCharts'));
+  }
   // first have to load the main amCharts script
   // which by convention MUST be the first file
   const amchartsFileName = fileNames.shift();
@@ -59,7 +62,6 @@ export default Service.extend({
       // get the base path where amCharts resources are locates
       // NOTE: the amCharts path is set in contentFor('head')
       const path = window && window.AmCharts_path;
-      // TODO: what to do if no path? reject?
 
       // get required resources from config
       const ENV = getOwner(this).resolveRegistration('config:environment');
