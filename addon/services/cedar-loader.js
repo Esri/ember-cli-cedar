@@ -10,7 +10,7 @@ function loadScript(src) {
   return new Promise(resolve => {
     const script = document.createElement('script');
     script.onload = resolve;
-    script.src = src;    
+    script.src = src;
     document.head.appendChild(script);
   });
 }
@@ -39,8 +39,8 @@ function loadAmChartsFiles(path, fileNames) {
       return isScript
         ? loadScript(`${path}/${fileName}`)
         : loadStylesheet(`${path}/${fileName}`);
-    }));  
-  });  
+    }));
+  });
 }
 
 export default Service.extend({
@@ -48,12 +48,15 @@ export default Service.extend({
     if (window.AmCharts) {
       // at least amCharts dependency is loaded
       // for now, we assume that means that they all are
-      // TODO: also use a loading flag in case is running?
-      // TODO: check if all other imports are loaded to,
-      // and load them if they are not?
+      // TODO: check if all other imports are loaded too,
+      // and only load the ones that are missing?
       return resolve(cedar);
     } else {
-      // load all the amCharts scripts
+      if (this._loadAmChartsPromise) {
+        // already loading or loaded, return the existing promise
+        return this._loadAmChartsPromise;
+      }
+      // get the base path where amCharts resources are locates
       // NOTE: the amCharts path is set in contentFor('head')
       const path = window && window.AmCharts_path;
       // TODO: what to do if no path? reject?
@@ -63,8 +66,11 @@ export default Service.extend({
       const imports = ENV && ENV.cedar && ENV.cedar.amCharts && ENV.cedar.amCharts.imports;
       // TODO: what to do if no imports? resolve? reject?
 
-      return loadAmChartsFiles(path, imports.concat())
-      .then(() => { return cedar });
+      // load all the amCharts resources, but only once
+      // and then return the cedar namespace
+      this._loadAmChartsPromise = loadAmChartsFiles(path, imports.concat())
+      .then(() => cedar);
+      return this._loadAmChartsPromise;
     }
   }
 });

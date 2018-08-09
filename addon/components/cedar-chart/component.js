@@ -117,7 +117,7 @@ export default Component.extend({
       // or fetching, transforming or rendering data
       this._handleErr(err);
     });
-},
+  },
 
   // remove any event handlers and destroy the chart if it exists
   _destroyChart () {
