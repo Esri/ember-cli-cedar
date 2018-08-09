@@ -35,7 +35,7 @@ function loadAmChartsFiles(path, fileNames) {
   .then(() => {
     // load the remaining scripts
     return allSettled(fileNames.map(fileName => {
-      const isScript = /\.js$/.test(fileName);
+      const isScript = /\.js$/i.test(fileName);
       return isScript
         ? loadScript(`${path}/${fileName}`)
         : loadStylesheet(`${path}/${fileName}`);
