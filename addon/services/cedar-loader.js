@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { getOwner } from '@ember/application';
 import { resolve } from 'rsvp';
 import cedar from 'cedar';
-import { loadAmChartsFiles } from '../utils/lazy-loading'
+import { loadAmChartsFiles } from 'ember-cli-cedar/utils/lazy-loading';
 
 export default Service.extend({
   loadDependencies() {
@@ -24,11 +24,10 @@ export default Service.extend({
       // get required resources from config
       const ENV = getOwner(this).resolveRegistration('config:environment');
       const imports = ENV && ENV.cedar && ENV.cedar.amCharts && ENV.cedar.amCharts.imports;
-      // TODO: what to do if no imports? resolve? reject?
 
       // load all the amCharts resources, but only once
       // and then return the cedar namespace
-      this._loadAmChartsPromise = loadAmChartsFiles(path, imports.concat())
+      this._loadAmChartsPromise = loadAmChartsFiles(path, imports)
       .then(() => cedar);
       return this._loadAmChartsPromise;
     }

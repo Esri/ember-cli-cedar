@@ -24,15 +24,20 @@ function loadStylesheet(href) {
 
 export function loadAmChartsFiles(path, fileNames) {
   if (!path) {
-    return reject(new Error('You must set AmCharts_path global in order to lazy-load AmCharts'));
+    return reject(new Error('You must supply the root path to AmCharts (typically the AmCharts_path global) in order to lazy-load AmCharts'));
   }
+  if (!fileNames) {
+    return reject(new Error('You must supply the AmCharts files you wish to lazy load'));
+  }
+  // don't mutate fileNames that are passed in
+  const fileNamesCopy = fileNames.concat();
   // first have to load the main amCharts script
   // which by convention MUST be the first file
-  const amchartsFileName = fileNames.shift();
+  const amchartsFileName = fileNamesCopy.shift();
   return loadScript(`${path}/${amchartsFileName}`)
   .then(() => {
     // load the remaining scripts
-    return allSettled(fileNames.map(fileName => {
+    return allSettled(fileNamesCopy.map(fileName => {
       const isScript = /\.js$/i.test(fileName);
       return isScript
         ? loadScript(`${path}/${fileName}`)

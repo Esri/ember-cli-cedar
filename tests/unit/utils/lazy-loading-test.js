@@ -4,10 +4,20 @@ import { loadAmChartsFiles } from 'dummy/utils/lazy-loading';
 
 module('Unit | Utility | lazy loading');
 
+const amChartsPath = 'https://fake.host.com/path/to/amcharts';
+const fileNames  = ['amcharts.js', 'serial.js', 'plugins/export/export.css'];
+
 test('loadAmChartsFiles w/ no path', function(assert) {
-  return loadAmChartsFiles()
+  return loadAmChartsFiles(undefined, fileNames)
   .catch(e => {
-    assert.ok(e.message = 'You must set AmCharts_path global in order to lazy-load AmCharts');
+    assert.equal(e.message, 'You must supply the root path to AmCharts (typically the AmCharts_path global) in order to lazy-load AmCharts');
+  });
+});
+
+test('loadAmChartsFiles w/ no files', function(assert) {
+  return loadAmChartsFiles(amChartsPath)
+  .catch(e => {
+    assert.equal(e.message, 'You must supply the AmCharts files you wish to lazy load');
   });
 });
 
@@ -17,8 +27,7 @@ test('loadAmChartsFiles w/ a script and stylesheet', function(assert) {
     // trigger the onload event to simulate the script/link having loaded
     el.onload();
   });
-  const amChartsPath = 'https://fake.host.com/path/to/amcharts';
-  return loadAmChartsFiles(amChartsPath, ['amcharts.js', 'serial.js', 'plugins/export/export.css'])
+  return loadAmChartsFiles(amChartsPath, fileNames)
   .then(() => {
     assert.equal(appendChildStub.callCount, 3, 'should have attempted to load 3 resources');
     const amChartsScript = appendChildStub.getCall(0).args[0];
