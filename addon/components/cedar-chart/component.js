@@ -3,7 +3,9 @@ import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import cedar from 'cedar';
 import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
 
+// TODO: move this to utils
 // reject with an error after so many milliseconds
 function rejectAfter (milliseconds, errorMessage) {
   return new Promise((resolve, reject) => {
@@ -13,6 +15,8 @@ function rejectAfter (milliseconds, errorMessage) {
 
 export default Component.extend({
   classNames: ['cedar-chart'],
+
+  cedarLoader: service(),
 
   timeoutErrorMessage: 'The queries to the service(s) are not responding within the designated timeout period.',
 
@@ -76,37 +80,41 @@ export default Component.extend({
       return;
     }
 
-    // query the data and show the chart
-    tryInvoke(this, 'onUpdateStart');
-    const timeout = this.get('timeout');
-    let queryPromise;
-    if (timeout) {
-      // reject if the query results don't return before the timeout
-      const timeoutPromise = rejectAfter(timeout, this.get('timeoutErrorMessage'));
-      queryPromise = Promise.race([timeoutPromise, this.chart.query()]);
-    } else {
-      queryPromise = this.chart.query();
-    }
-    queryPromise.then(response => {
-      if (this.get('isDestroyed') || this.get('isDestroying')) {
-        return;
+    // ensure cedar dependencies are loaded before rendering the chart
+    this.get('cedarLoader').loadDependencies().then(() => {
+      // query the data and show the chart
+      tryInvoke(this, 'onUpdateStart');
+      const timeout = this.get('timeout');
+      let queryPromise;
+      if (timeout) {
+        // reject if the query results don't return before the timeout
+        const timeoutPromise = rejectAfter(timeout, this.get('timeoutErrorMessage'));
+        queryPromise = Promise.race([timeoutPromise, this.chart.query()]);
+      } else {
+        queryPromise = this.chart.query();
       }
-      const transform = this.get('transform');
-      if (transform) {
-        // call transform closure action on each response
-        for (const datasetName in response) {
-          if (response.hasOwnProperty(datasetName)) {
-            const dataset = this.chart.dataset(datasetName);
-            response[datasetName] = transform(response[datasetName], dataset);
+      return queryPromise.then(response => {
+        if (this.get('isDestroyed') || this.get('isDestroying')) {
+          return;
+        }
+        const transform = this.get('transform');
+        if (transform) {
+          // call transform closure action on each response
+          for (const datasetName in response) {
+            if (response.hasOwnProperty(datasetName)) {
+              const dataset = this.chart.dataset(datasetName);
+              response[datasetName] = transform(response[datasetName], dataset);
+            }
           }
         }
-      }
-      // render the chart
-      this.chart.updateData(response).render();
-      tryInvoke(this, 'onUpdateEnd');
-      return this.chart;
+        // render the chart
+        this.chart.updateData(response).render();
+        tryInvoke(this, 'onUpdateEnd');
+        return this.chart;
+      });
     }).catch(err => {
-      // an error occurred while fetching, transforming or rendering data
+      // an error occurred while loading dependencies
+      // or fetching, transforming or rendering data
       this._handleErr(err);
     });
   },

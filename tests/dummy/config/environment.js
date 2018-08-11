@@ -27,6 +27,30 @@ module.exports = function(environment) {
       'style-src': "'self' 'unsafe-inline'",
       // connect to hosted arcigs servers
       'connect-src': '*'
+    },
+    cedar: {
+      amCharts: {
+        // imports - the amcharts resources that you need to use
+        // NOTE: when lazy-loading paths are relative to window.AmCharts_path
+        // but when bundling in vendor.js the paths are relative to
+        // the package's dist folder in node_modules
+        // either way the folder structure should be the same
+        imports: [
+          // amCharts base lib, this one is required and MUST be the first element in the array
+          'amcharts.js',
+          // you will likely need at least one of the following:
+          'serial.js', // bar and line charts
+          'xy.js', // scatter charts
+          'pie.js', // pie and donut charts
+          'radar.js', // radar charts
+          // you will also likely need a theme to style charts
+          'themes/calcite.js',
+          // plugins are complely optioinal
+          // this one adds a download button on the chart
+          'plugins/export/export.js',
+          'plugins/export/export.css'
+        ]
+      }
     }
   };
 

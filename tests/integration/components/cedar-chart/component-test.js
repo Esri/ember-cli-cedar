@@ -1,14 +1,27 @@
 /* global fetchMock */
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent } from 'ember-qunit';
+import test from 'ember-sinon-qunit/test-support/test';
 import { later } from '@ember/runloop';
-import { Promise } from 'rsvp';
+import { Promise, resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import { bar } from '../../../mock/definitions';
 import { schoolsResponse } from '../../../mock/responses';
+import cedar from 'cedar';
+import Service from '@ember/service';
 
 moduleForComponent('cedar-chart', 'Integration | Component | cedar chart', {
   integration: true,
+  beforeEach () {
+    // we're not really going to lazy-load amCharts
+    // so we mock the cedar loader service
+    this.register('service:cedar-loader', Service.extend({
+      loadDependencies() {
+        return resolve();
+      }
+    }));
+  },
   afterEach () {
+    // clean up
     fetchMock.restore();
   }
 });
@@ -32,12 +45,18 @@ test('it renders with no props set', function(assert) {
   assert.equal(this.$().text().trim(), 'template block text');
 });
 
-test('It generates a chart properly', function (assert) {
+test('it queries, updates, and renders the data', function (assert) {
   let done = assert.async();
 
+  // stub render so that non-existent AmCharts methods are not invoked
+  const renderStub = this.stub(cedar.Chart.prototype, 'render');
+  const updateDataSpy = this.spy(cedar.Chart.prototype, 'updateData');
   this.set('definition', bar);
   this.on('updateEnd', function() {
-    assert.equal(this.$('.amcharts-main-div').length, 1, 'chart was rendered');
+    // assert.equal(this.$('.amcharts-main-div').length, 1, 'chart was rendered');
+    assert.equal(updateDataSpy.callCount, 1, 'it should have called updateData exactly once');
+    assert.equal(renderStub.callCount, 1, 'it should have called render exactly once');
+    assert.deepEqual(updateDataSpy.getCall(0).args[0].Number_of_SUM, schoolsResponse, 'it should pass the query response to updateData');
     done();
   });
   // mock feature service response

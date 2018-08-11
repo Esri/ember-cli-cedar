@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Changed
+- cedar-chart component lazy-loads cedar dependencies by default
+### Added
+- add cedar-loader service to lazy-load cedar dependencies
+
 ## v1.0.0-beta.8
 ### Changed
 - Bump to cedar@v1.0.0-beta.8
