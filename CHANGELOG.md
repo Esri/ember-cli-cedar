@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - cedar-chart component lazy-loads cedar dependencies by default
 ### Added
 - add cedar-loader service to lazy-load cedar dependencies
+- configure cedar to use ember-fetch
 
 ## v1.0.0-beta.8
 ### Changed
