@@ -51,19 +51,19 @@ module.exports = {
     // parse amCharts options from ember-cli-build
     const options = app && app.options;
     this.amChartsOptions = options && options.cedar && options.cedar.amCharts;
-    let bundle = this.amChartsOptions.bundle;
     // what amCharts files will we need to either serve (to be lazy-laoded)
     // and/or bundle inside vendor.js
-    this.amChartsImports = amChartsConfig && amChartsConfig.imports;
-    // TOOD: remove this if block on next breaking change
-    if (!this.amChartsImports) {
-      // for backwards compatibility we look for imports in the options
-      this.amChartsImports = this.amChartsOptions && this.amChartsOptions.imports;
-      bundle = true;
-    }
-    // NOTE: when bundling scripts, need to also serve the amCharts assets
-    // that those scripts will dynamically load, so we also check for publicPath here
-    if (bundle && this.amChartsImports && this.amChartsOptions.publicPath) {
+    this.amChartsDependencies = amChartsConfig && amChartsConfig.dependencies;
+    this.amChartsImports = this.amChartsOptions && this.amChartsOptions.imports;
+    if (this.amChartsImports) {
+      if (!this.amChartsOptions.publicPath) {
+        // NOTE: even when bundling scripts, need to also serve the amCharts assets
+        // that those scripts will dynamically load, so we also check for publicPath here
+        /* eslint-disable no-console */
+        console.warn(`You have not specified a public path for amCharts assets;
+cedar charts may not work as expected, or at all. See: https://github.com/Esri/ember-cli-cedar#dependencies`);
+      }
+      /* eslint-enable no-console */
       // bundle specified amcharts files from the vendor folder
       this.amChartsImports.forEach(function (resource) {
         app.import(path.join('vendor/amcharts', resource));
@@ -93,7 +93,7 @@ module.exports = {
     });
     var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
     var publicPath = this.amChartsOptions.publicPath;
-    if (publicPath && this.amChartsImports) {
+    if (publicPath && (this.amChartsDependencies || this.amChartsImports)) {
       var amchartsTree = getAmChartsTree(publicPath);
       treesToMerge.push(amchartsTree);
     }

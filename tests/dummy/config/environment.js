@@ -30,12 +30,12 @@ module.exports = function(environment) {
     },
     cedar: {
       amCharts: {
-        // imports - the amcharts resources that you need to use
-        // NOTE: when lazy-loading paths are relative to window.AmCharts_path
-        // but when bundling in vendor.js the paths are relative to
-        // the package's dist folder in node_modules
-        // either way the folder structure should be the same
-        imports: [
+        // dependencies - the amCharts resources that your application needs
+        // these will be lazy-loaded the first that the application either
+        // - renders a {{cedar-chart}} component
+        // - calls this.get('cedarLoader').loadDependencies()
+        // NOTE: all paths are relative to window.AmCharts_path
+        dependencies: [
           // amCharts base lib, this one is required and MUST be the first element in the array
           'amcharts.js',
           // you will likely need at least one of the following:
