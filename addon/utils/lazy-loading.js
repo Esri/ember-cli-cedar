@@ -22,26 +22,33 @@ function loadStylesheet(href) {
   });
 }
 
-export function loadAmChartsFiles(path, fileNames) {
-  if (!path) {
-    return reject(new Error('You must supply the root path to AmCharts (typically the AmCharts_path global) in order to lazy-load AmCharts'));
+export function loadAmChartsFiles(dependencies, baseUrl) {
+  if (!dependencies) {
+    return reject(new Error('You must supply the AmCharts dependencies you wish to lazy load'));
   }
-  if (!fileNames) {
-    return reject(new Error('You must supply the AmCharts files you wish to lazy load'));
-  }
-  // don't mutate fileNames that are passed in
-  const fileNamesCopy = fileNames.concat();
+  // get the URLs to load
+  const prependUrl = baseUrl && baseUrl.replace(/\/$/, '');
+  const urls = prependUrl
+    // get fully qualified URL for each relative dependency
+    ? dependencies.map(dependency => {
+      const isAbsolute = /^(http(s?):)?\/(\/)?/.test(dependency);
+      return isAbsolute ? dependency : `${prependUrl}/${dependency}`
+    })
+    // we assume all are valid URLs already
+    // just copy the dependencies so we don't mutate the original
+    : dependencies.concat();
+
   // first have to load the main amCharts script
-  // which by convention MUST be the first file
-  const amchartsFileName = fileNamesCopy.shift();
-  return loadScript(`${path}/${amchartsFileName}`)
+  // which by convention MUST be the first dependency
+  const amchartsUrl = urls.shift();
+  return loadScript(amchartsUrl)
   .then(() => {
-    // load the remaining scripts
-    return allSettled(fileNamesCopy.map(fileName => {
-      const isScript = /\.js$/i.test(fileName);
+    // once that is loaded, we can load the remaining scripts
+    return allSettled(urls.map(url => {
+      const isScript = /\.js$/i.test(url);
       return isScript
-        ? loadScript(`${path}/${fileName}`)
-        : loadStylesheet(`${path}/${fileName}`);
+        ? loadScript(url)
+        : loadStylesheet(url);
     }));
   });
 }

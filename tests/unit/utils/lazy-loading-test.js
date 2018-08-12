@@ -4,20 +4,13 @@ import { loadAmChartsFiles } from 'dummy/utils/lazy-loading';
 
 module('Unit | Utility | lazy loading');
 
-const amChartsPath = 'https://fake.host.com/path/to/amcharts';
-const fileNames  = ['amcharts.js', 'serial.js', 'plugins/export/export.css'];
-
-test('loadAmChartsFiles w/ no path', function(assert) {
-  return loadAmChartsFiles(undefined, fileNames)
-  .catch(e => {
-    assert.equal(e.message, 'You must supply the root path to AmCharts (typically the AmCharts_path global) in order to lazy-load AmCharts');
-  });
-});
+const baseUrl = 'https://fake.host.com/path/to/amcharts';
+const dependencies  = ['amcharts.js', 'serial.js', 'plugins/export/export.css'];
 
 test('loadAmChartsFiles w/ no files', function(assert) {
-  return loadAmChartsFiles(amChartsPath)
+  return loadAmChartsFiles()
   .catch(e => {
-    assert.equal(e.message, 'You must supply the AmCharts files you wish to lazy load');
+    assert.equal(e.message, 'You must supply the AmCharts dependencies you wish to lazy load');
   });
 });
 
@@ -27,15 +20,15 @@ test('loadAmChartsFiles w/ a script and stylesheet', function(assert) {
     // trigger the onload event to simulate the script/link having loaded
     el.onload();
   });
-  return loadAmChartsFiles(amChartsPath, fileNames)
+  return loadAmChartsFiles(dependencies, baseUrl)
   .then(() => {
     assert.equal(appendChildStub.callCount, 3, 'should have attempted to load 3 resources');
     const amChartsScript = appendChildStub.getCall(0).args[0];
-    assert.equal(amChartsScript.src, `${amChartsPath}/amcharts.js`, 'amcharts script should have the correct URL');
+    assert.equal(amChartsScript.src, `${baseUrl}/amcharts.js`, 'amcharts script should have the correct URL');
     const serialScript = appendChildStub.getCall(1).args[0];
-    assert.equal(serialScript.src, `${amChartsPath}/serial.js`, 'serial script should have the correct URL');
+    assert.equal(serialScript.src, `${baseUrl}/serial.js`, 'serial script should have the correct URL');
     const exportLink = appendChildStub.getCall(2).args[0];
-    assert.equal(exportLink.href, `${amChartsPath}/plugins/export/export.css`, 'export link should have the correct URL');
+    assert.equal(exportLink.href, `${baseUrl}/plugins/export/export.css`, 'export link should have the correct URL');
     assert.equal(exportLink.rel, 'stylesheet', 'export link should have the correct rel');
     assert.equal(exportLink.type, 'text/css', 'export link should have the correct type');
   });

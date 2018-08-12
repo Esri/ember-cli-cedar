@@ -45,28 +45,18 @@ module.exports = {
 
   included(app) {
     this._super.included.apply(this, arguments);
-    // parse amCharts config from config/environment.js
-    const config = this.project.config();
-    const amChartsConfig = config && config.cedar && config.cedar.amCharts;
     // parse amCharts options from ember-cli-build
     const options = app && app.options;
-    this.amChartsOptions = options && options.cedar && options.cedar.amCharts;
-    // what amCharts files will we need to either serve (to be lazy-laoded)
-    // and/or bundle inside vendor.js
-    this.amChartsDependencies = amChartsConfig && amChartsConfig.dependencies;
-    this.amChartsImports = this.amChartsOptions && this.amChartsOptions.imports;
-    if (this.amChartsImports) {
-      if (!this.amChartsOptions.publicPath) {
-        // NOTE: even when bundling scripts, need to also serve the amCharts assets
-        // that those scripts will dynamically load, so we also check for publicPath here
-        /* eslint-disable no-console */
-        console.warn(`You have not specified a public path for amCharts assets;
-cedar charts may not work as expected, or at all. See: https://github.com/Esri/ember-cli-cedar#dependencies`);
-      }
-      /* eslint-enable no-console */
+    this.amChartsOptions = (options && options.cedar && options.cedar.amCharts) || {};
+    // what amCharts files will we need to bundle inside vendor.js
+    this.amChartsImports = this.amChartsOptions.imports;
+    // NOTE: even when bundling scripts, need to also serve the amCharts assets
+    // that those scripts will dynamically load, so we also check for publicPath here
+    const publicPath = this.amChartsOptions.publicPath
+    if (publicPath && this.amChartsImports) {
       // bundle specified amcharts files from the vendor folder
       this.amChartsImports.forEach(function (resource) {
-        app.import(path.join('vendor/amcharts', resource));
+        app.import(path.join('vendor', publicPath, resource));
       });
     }
     // bundle cedar scripts from vendor folder
@@ -93,7 +83,7 @@ cedar charts may not work as expected, or at all. See: https://github.com/Esri/e
     });
     var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
     var publicPath = this.amChartsOptions.publicPath;
-    if (publicPath && (this.amChartsDependencies || this.amChartsImports)) {
+    if (publicPath && this.amChartsImports) {
       var amchartsTree = getAmChartsTree(publicPath);
       treesToMerge.push(amchartsTree);
     }
