@@ -84,11 +84,11 @@ ember install ember-cli-cedar
 
 ### Dependencies
 
-@esri/cedar depends on [amCharts](https://www.amcharts.com/javascript-charts/), which will be installed locally as an npm dependency. However, you have options on how your app will load amCharts.
+@esri/cedar depends on [amCharts](https://www.amcharts.com/javascript-charts/), which will be installed locally as an npm dependency. However, you have a few options as to how your application will load amCharts.
 
-#### Load locally installed amCharts
+#### Use locally installed amCharts
 
-If you want to use the amCharts that is installed locally (in node_modules), you will need to start by adding the following to in ember-cli-build.js:
+If you want to use the amCharts package that is installed locally (in node_modules), you will need to start by adding the following to in ember-cli-build.js:
 
 ```js
 {
@@ -98,9 +98,7 @@ If you want to use the amCharts that is installed locally (in node_modules), you
       // use this if you are not loading amCharts from the CDN
       // i.e. and are either going to bundle amcharts into vendor.js (below)
       // or going to lazy-load amcharts from window.AmCharts_path
-      publicPath: 'amcharts',
-      // bundle - bundle amCharts files (configure which in config/enviroment.js)
-      // bundle: true
+      publicPath: 'amcharts'
     }
   }
   // amCharts uses hardcoded paths to assets (like images and plugin files)
@@ -112,19 +110,21 @@ If you want to use the amCharts that is installed locally (in node_modules), you
 }
 ```
 
-By default we assume you want to lazy-load amCharts only once a cedar chart is going to be rendered (recommended), however, you can set `bundle: true` above to bundle amCharts scripts in vendor.js. 
+#### Lazy-load amCharts
+
+The ideal way to load amCharts is only once a cedar chart is going to be rendered.
 
 Either way, you will need to configure an array of the amCharts files you want to use like this in config/environment.js:
 
 ```js
     cedar: {
-      // imports - the amcharts resources that you need to use
-      // NOTE: when lazy-loading paths are relative to window.AmCharts_path
-      // but when bundling in vendor.js the paths are relative to
-      // the package's dist folder in node_modules
-      // either way the folder structure should be the same
+      // dependencies - the amCharts resources that your application needs
+      // these will be lazy-loaded the first that the application either
+      // - renders a {{cedar-chart}} component
+      // - calls this.get('cedarLoader').loadDependencies()
+      // NOTE: all paths are relative to window.AmCharts_path
       amCharts: {
-        imports: [
+        dependencies: [
           // amCharts base lib, this one is required and MUST be the first element in the array
           'amcharts.js',
           // you will likely need at least one of the following:
@@ -143,9 +143,31 @@ Either way, you will need to configure an array of the amCharts files you want t
     }
 ```
 
+#### Import amCharts in vendor bundles
+
+Instead of lazy-loading, you can configure ember-cli-cedar to import the amCharts dependencies into vendor.js and vendor.css. To do this, _instead_ of adding the above config/enviroment.js, add the following list of `imports` to the `cedar.amCharts` section that you added to ember-cli-build.js above (i.e. right below `publicPath`) :
+
+```js
+      imports: [
+        // amCharts base lib, this one is required and MUST be the first element in the array
+        'amcharts.js',
+        // you will likely need at least one of the following:
+        'serial.js', // bar and line charts
+        'xy.js', // scatter charts
+        'pie.js', // pie and donut charts
+        'radar.js', // radar charts
+        // you will also likely need a theme to style charts
+        'themes/calcite.js',
+        // plugins are complely optioinal
+        // this one adds a download button on the chart
+        'plugins/export/export.js',
+        'plugins/export/export.css'
+      ]
+```
+
 #### Load amCharts from a CDN
 
-To load amCharts from a CDN, you can skip all of the above configuration steps and simply add the appropriate amCharts scripts and/or styles to your index.html _before_ the vendor.js script:
+To load amCharts from a CDN, you can _skip all of the above configuration steps_ and simply add the required amCharts scripts, themes, and/or styles to your index.html _before_ the vendor.js script:
 
 ```html
 <!-- load the amCharts base library -->
@@ -158,6 +180,11 @@ To load amCharts from a CDN, you can skip all of the above configuration steps a
 <script src="https://www.amcharts.com/lib/3/xy.js"></script>
 <!-- for radar charts -->
 <script src="https://www.amcharts.com/lib/3/radar.js"></script>
+<!-- optionally load an amcharts theme -->
+<!-- cedar provides a calcite theme -->
+<script src="https://unpkg.com/@esri/cedar/dist/umd/themes/amCharts/calcite.js"></script>
+<!-- or you could use one of the themes from amcharts -->
+<!-- <script src="https://www.amcharts.com/lib/3/themes/light.js"></script> -->
 <!-- optioinally load the amcharts plugin to export the chart as and image or table -->
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />

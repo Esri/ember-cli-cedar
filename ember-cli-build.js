@@ -13,8 +13,24 @@ module.exports = function(defaults) {
         // i.e. you are going to either lazy-load amcharts from window.AmCharts_path
         // or going to bundle amcharts into vendor.js
         publicPath: publicPath,
-        // bundle - import amCharts files into vendor.js instead of lazy-loading them
-        // bundle: true
+        // imports - import amCharts files into vendor.js and vendor.css files
+        // instead of lazy-loading them (which is configured in config/enviroment.js)
+        // NOTE: paths are relative to node_modules/amcharts3/amcharts
+        // imports: [
+        //   // amCharts base lib, this one is required and MUST be the first element in the array
+        //   'amcharts.js',
+        //   // you will likely need at least one of the following:
+        //   'serial.js', // bar and line charts
+        //   'xy.js', // scatter charts
+        //   'pie.js', // pie and donut charts
+        //   'radar.js', // radar charts
+        //   // you will also likely need a theme to style charts
+        //   'themes/calcite.js',
+        //   // plugins are complely optioinal
+        //   // this one adds a download button on the chart
+        //   'plugins/export/export.js',
+        //   'plugins/export/export.css'
+        // ]
       }
     },
     // amCharts uses hardcoded paths to assets (like images and plugin files)
