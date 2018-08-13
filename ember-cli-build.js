@@ -1,18 +1,17 @@
 'use strict';
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-const publicPath = 'amcharts';
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
     // Add options here
     cedar: {
       amCharts: {
-        // publicPath - amCharts will be included at this path in the public folder
-        // use this if you are NOT loading amCharts from the CDN
-        // i.e. you are going to either lazy-load amcharts from window.AmCharts_path
-        // or going to bundle amcharts into vendor.js
-        publicPath: publicPath,
+        // publicPath - amCharts will be served from this path in the public folder
+        // use this if you are importing amCharts into vendor js/css files
+        // or if you want to lazy-load the locally served amCharts scripts/styles
+        // instead of lazy-load scripts/styles from a CDN
+        publicPath: 'amcharts',
         // imports - import amCharts files into vendor.js and vendor.css files
         // instead of lazy-loading them (which is configured in config/enviroment.js)
         // NOTE: paths are relative to node_modules/amcharts3/amcharts
@@ -37,7 +36,7 @@ module.exports = function(defaults) {
     // so you will need to make sure those don't get fingerprinted
     fingerprint: {
       // NOTE: this needs to be the same as publicPath above
-      exclude: [publicPath]
+      exclude: ['amcharts']
     }
   });
 

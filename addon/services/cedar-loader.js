@@ -17,17 +17,16 @@ export default Service.extend({
         // already loading or loaded, return the existing promise
         return this._loadAmChartsPromise;
       }
-      // get the base path where amCharts resources are located
-      // NOTE: the amCharts path is set in contentFor('head')
-      const path = window && window.AmCharts_path;
-
       // get required resources from config
       const ENV = getOwner(this).resolveRegistration('config:environment');
-      const imports = ENV && ENV.cedar && ENV.cedar.amCharts && ENV.cedar.amCharts.dependencies;
+      const amChartsConfig = (ENV && ENV.cedar && ENV.cedar.amCharts) || {};
+
+      // get the base url where amCharts resources are located
+      const baseUrl = amChartsConfig.baseUrl ? amChartsConfig.baseUrl : window && window.AmCharts_path;
 
       // load all the amCharts resources, but only once
       // and then return the cedar namespace
-      this._loadAmChartsPromise = loadAmChartsFiles(path, imports)
+      this._loadAmChartsPromise = loadAmChartsFiles(amChartsConfig.dependencies, baseUrl)
       .then(() => cedar);
       return this._loadAmChartsPromise;
     }
