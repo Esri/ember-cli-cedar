@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-cedar",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "Ember addon for Esri Cedar charting library",
   "keywords": [
     "ember-addon"
