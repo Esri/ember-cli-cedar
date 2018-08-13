@@ -82,6 +82,9 @@ export default Component.extend({
 
     // ensure cedar dependencies are loaded before rendering the chart
     this.get('cedarLoader').loadDependencies().then(() => {
+      if (this.get('isDestroyed') || this.get('isDestroying')) {
+        return;
+      }
       // query the data and show the chart
       tryInvoke(this, 'onUpdateStart');
       const timeout = this.get('timeout');
