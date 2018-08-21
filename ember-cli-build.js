@@ -4,6 +4,10 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
+    'ember-cli-babel': {
+      // NOTE: this is only included b/c I couldn't get async/await to work in tests
+      includePolyfill: true
+    },
     // Add options here
     cedar: {
       amCharts: {
