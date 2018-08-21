@@ -15,8 +15,7 @@ module.exports = {
     browser: true
   },
   rules: {
-    // TODO: bump this from warning to error once all uses are removed
-    'ember/no-jquery': 1
+    'ember/no-jquery': 2
   },
   overrides: [
     // node files
