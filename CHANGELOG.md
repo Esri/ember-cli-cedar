@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+### Changed
+- convert tests to new format and use stubs instead of fetch-mock
+- configure eslint to treat use of jQuery as an error
 
 ## v1.0.0-beta.10
 ### Fixed
