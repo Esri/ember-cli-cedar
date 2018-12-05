@@ -29,6 +29,7 @@ export default Controller.extend({
       slugs: [
         'bar',
         'bar-grouped',
+        'bar-domain',
         'bar-stacked',
         'bar-horizontal',
         'line',

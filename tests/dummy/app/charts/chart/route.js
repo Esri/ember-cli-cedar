@@ -7,7 +7,7 @@ export default Route.extend({
     // TODO: default to 'bar'
     const slug = params.slug;
     // fetch the example chart definition JSON from the cedar v1 docs site
-    return fetch (`https://cedar-v1.surge.sh/examples/${slug}.json`)
+    return fetch (`https://raw.githubusercontent.com/Esri/cedar/master/docs/examples/${slug}.json`)
     .then(response => {
       // TODO: check if response is OK
       return response.json()
