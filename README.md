@@ -198,7 +198,7 @@ To load amCharts from a CDN, you can _skip all of the above configuration steps_
 <script src="https://www.amcharts.com/lib/3/radar.js"></script>
 <!-- optionally load an amcharts theme -->
 <!-- cedar provides a calcite theme -->
-<script src="https://unpkg.com/@esri/cedar@1.0.0-beta.9/dist/umd/themes/amCharts/calcite.js"></script>
+<script src="https://unpkg.com/@esri/cedar/dist/umd/themes/amCharts/calcite.js"></script>
 <!-- or you could use one of the themes from amcharts -->
 <!-- <script src="https://www.amcharts.com/lib/3/themes/light.js"></script> -->
 <!-- optioinally load the amcharts plugin to export the chart as and image or table -->
@@ -294,7 +294,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ## License
 
-Copyright 2017 Esri
+Copyright &copy; 2016-2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
