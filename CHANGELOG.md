@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Changed
+- get the definition JSON files from raw.githubusercontent.com
+
 ## v1.0.0-rc.1
 ### Changed
 - Bump to cedar@v1.0.0-rc.1
