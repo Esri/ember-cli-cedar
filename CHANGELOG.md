@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## v1.0.0-rc.2
 ### Changed
 - get the definition JSON files from raw.githubusercontent.com
 - make it compatible w/ Ember engines
