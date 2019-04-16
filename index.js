@@ -82,7 +82,7 @@ module.exports = {
       destDir: 'cedar'
     });
     var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
-    var publicPath = this.amChartsOptions.publicPath;
+    var publicPath = this._getPublicPath();
     if (publicPath && this.amChartsImports) {
       var amchartsTree = getAmChartsTree(publicPath);
       treesToMerge.push(amchartsTree);
@@ -90,9 +90,19 @@ module.exports = {
     return new MergeTrees(treesToMerge);
   },
 
+  _getPublicPath () {
+    let result = '';
+    if (this.amChartsOptions && this.amChartsOptions.publicPath) {
+      result = this.amChartsOptions.publicPath;
+    }
+    console.info(` CEDAR PUBLIC PATH ${result}`);
+    return result;
+  },
+
   treeForPublic: function(publicNode) {
     var node = this._super.treeForPublic(publicNode);
-    var publicPath = this.amChartsOptions.publicPath;
+    var publicPath = this._getPublicPath();
+
     if (publicPath) {
       // copy amCharts dist files to public folder so that
       // it can dynamically load resources like images, styles, and scripts  at runtime
@@ -111,7 +121,7 @@ module.exports = {
   contentFor(type, config) {
     var content = '';
     if (type === 'head') {
-      var publicPath = this.amChartsOptions.publicPath;
+      var publicPath = this._getPublicPath();
       if (publicPath) {
         var assetBaseUrl = (config.cedar && config.cedar.assetBaseUrl) || config.rootURL;
         // concatenate path w/ '/'
