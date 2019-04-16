@@ -95,7 +95,6 @@ module.exports = {
     if (this.amChartsOptions && this.amChartsOptions.publicPath) {
       result = this.amChartsOptions.publicPath;
     }
-    console.info(` CEDAR PUBLIC PATH ${result}`);
     return result;
   },
 
