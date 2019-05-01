@@ -59,29 +59,10 @@ module.exports = {
         app.import(path.join('vendor', publicPath, resource));
       });
     }
-    // bundle cedar scripts from vendor folder
-    this.import('vendor/@esri/arcgis-rest-request/request.umd.js');
-    this.import('vendor/@esri/arcgis-rest-feature-service/feature-service.umd.js');
-    this.import('vendor/cedar/cedar.js');
-    this.import('vendor/shims/cedar.js');
   },
 
   treeForVendor (vendorTree) {
-    // copy arcgis-rest-js dist files to vendor
-    var arcgisRestRequestTree = new Funnel(path.dirname(require.resolve('@esri/arcgis-rest-request/dist/umd/request.umd.js')), {
-      files: ['request.umd.js', 'request.umd.js.map'],
-      destDir: '@esri/arcgis-rest-request'
-    });
-    var arcgisRestFeatureServiceTree = new Funnel(path.dirname(require.resolve('@esri/arcgis-rest-feature-service/dist/umd/feature-service.umd.js')), {
-      files: ['feature-service.umd.js', 'feature-service.umd.js.map'],
-      destDir: '@esri/arcgis-rest-feature-service'
-    });
-    // copy cedar dist files to vendor folder
-    var cedarTree = new Funnel(path.dirname(require.resolve('@esri/cedar/dist/umd/cedar.js')), {
-      files: ['cedar.js', 'cedar.js.map'],
-      destDir: 'cedar'
-    });
-    var treesToMerge = [vendorTree, arcgisRestRequestTree, arcgisRestFeatureServiceTree, cedarTree];
+    var treesToMerge = vendorTree ? [ vendorTree ] : [];
     var publicPath = this._getPublicPath();
     if (publicPath && this.amChartsImports) {
       var amchartsTree = getAmChartsTree(publicPath);

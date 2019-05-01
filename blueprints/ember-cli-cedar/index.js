@@ -3,7 +3,8 @@ module.exports = {
   normalizeEntityName: function() {}, // no-op since we're just adding dependencies
 
   afterInstall: function() {
-    // NOTE: using npm i -S to save deps in package.json
-    // so don't need to addPackageToProject
+    this.addPackagesToProject({
+      '@esri/cedar': '^1.0.0'
+    });
   }
 };
