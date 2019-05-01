@@ -42,17 +42,19 @@ This addon exposes the `cedar-loader` service that you can use to control when c
   });
 ```
 
-### Shim
+<a name="shim"></a>
 
-This addon also exposes a shim you can use to work w/ the cedar library directly:
+### Importing from cedar
+
+Alternatively you can `import` from the cedar library directly:
 
 ```js
-import cedar from 'cedar';
+import { Chart } from '@esri/cedar';
 
-this.chart = new cedar.Chart(this.elementId, definition);
+this.chart = new Chart(this.elementId, definition);
 ```
 
-NOTE: If you will be [lazy-loading cedar's dependencies](#lazy-load-amcharts), you should probably use the [service](#service) instead the shim.
+NOTE: If you will be [lazy-loading cedar's dependencies](#lazy-load-amcharts), you should probably use the [service](#service) instead.
 
 ### v0.x
 
@@ -76,7 +78,7 @@ This addon exposes a component you can use to declaratively add a Cedar chart to
 }}
 ```
 
-See the [Cedar documentation](https://github.com/Esri/cedar/tree/v0.x) for details on how to construct a chart specification and other chart parameters.
+See the [Cedar documentation](https://esri.github.io/cedar/) for details on how to construct a [chart definition](https://esri.github.io/cedar/api/interfaces/idefinition.html) and other chart parameters.
 
 ## Installation
 To consume this addon in any ember application, run:
@@ -87,6 +89,8 @@ ember install ember-cli-cedar
 Please see the [Dependencies](#dependencies) and [Configuration](#configuration) sections below for further installation steps.
 
 ## Dependencies
+
+This addon will add [@esri/cedar] as a dependency to your application.
 
 @esri/cedar depends on [amCharts](https://www.amcharts.com/javascript-charts/), which will be installed locally as an npm dependency. However, you have a few options as to how your application will load amCharts' scripts, styles, themes, and/or plugins. You can either:
 - configure ember-cli-cedar to [lazy-load amCharts](#lazy-load-amcharts), either
@@ -309,3 +313,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
+
+[@esri/cedar]:https://github.com/Esri/cedar

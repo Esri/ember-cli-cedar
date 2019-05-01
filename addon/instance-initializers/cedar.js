@@ -1,5 +1,5 @@
 import fetch from 'fetch';
-import cedar from 'cedar';
+import cedar from '@esri/cedar';
 
 export function initialize(/* appInstance */) {
   if (cedar.config) {

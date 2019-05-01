@@ -1,7 +1,7 @@
 import { scheduleOnce, later } from '@ember/runloop';
 import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
-import cedar from 'cedar';
+import { Chart } from '@esri/cedar';
 import { Promise } from 'rsvp';
 import { inject as service } from '@ember/service';
 
@@ -51,7 +51,7 @@ export default Component.extend({
       }
 
       // create the chart and attach it to the dom
-      this.chart = new cedar.Chart(this.elementId, definition);
+      this.chart = new Chart(this.elementId, definition);
 
       // TODO: events aren't supported yet
       // wire up event handlers

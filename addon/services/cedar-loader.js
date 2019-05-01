@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { getOwner } from '@ember/application';
 import { resolve } from 'rsvp';
-import cedar from 'cedar';
+import cedar from '@esri/cedar';
 import { loadAmChartsFiles } from 'ember-cli-cedar/utils/lazy-loading';
 
 export default Service.extend({

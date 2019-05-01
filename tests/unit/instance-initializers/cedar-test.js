@@ -4,7 +4,7 @@ import { initialize } from 'dummy/instance-initializers/cedar';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 import fetch from 'fetch';
-import cedar from 'cedar';
+import cedar from '@esri/cedar';
 
 module('Unit | Instance Initializer | cedar', {
   beforeEach() {

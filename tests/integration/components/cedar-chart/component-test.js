@@ -7,7 +7,7 @@ import { Promise, resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import { bar } from '../../../mock/definitions';
 import { schoolsResponse } from '../../../mock/responses';
-import cedar from 'cedar';
+import cedar from '@esri/cedar';
 import Service from '@ember/service';
 
 module('cedar-chart', 'Integration | Component | cedar chart', function (hooks) {
