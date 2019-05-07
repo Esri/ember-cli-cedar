@@ -4,7 +4,11 @@ module.exports = {
 
   afterInstall: function() {
     this.addPackagesToProject({
-      '@esri/cedar': '^1.0.0'
+      '@esri/arcgis-rest-auth': '^2.0.0',
+      '@esri/arcgis-rest-feature-layer': '^2.0.0',
+      '@esri/arcgis-rest-request': '^2.0.0',
+      '@esri/arcgis-rest-types': '^2.0.0',  
+      '@esri/cedar': '^1.0.1'
     });
   }
 };
