@@ -115,22 +115,29 @@
     ember-cli-babel "^6.12.0"
     ember-cli-htmlbars-inline-precompile "^1.0.0"
 
-"@esri/arcgis-rest-feature-layer@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-feature-layer/-/arcgis-rest-feature-layer-2.0.0.tgz#f3530a4c88253731a608561a3f4a6b24e5713a55"
+"@esri/arcgis-rest-auth@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-auth/-/arcgis-rest-auth-2.0.1.tgz#2bcd3d2c4adc2ae992572d549c56264fb635b451"
   dependencies:
-    "@esri/arcgis-rest-types" "^2.0.0"
+    "@esri/arcgis-rest-types" "^2.0.1"
+    tslib "^1.9.3"
+
+"@esri/arcgis-rest-feature-layer@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-feature-layer/-/arcgis-rest-feature-layer-2.0.1.tgz#1b2cd56fb84b5dc67484fc935e2622444f1b55ae"
+  dependencies:
+    "@esri/arcgis-rest-types" "^2.0.1"
     tslib "^1.9.3"
 
 "@esri/arcgis-rest-request@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-request/-/arcgis-rest-request-2.0.0.tgz#af46847d3f397035f42c451fdb4ee3cb07a1d2cd"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-request/-/arcgis-rest-request-2.0.1.tgz#8cdf5be9ded7daeb5e84486370e4d8a49d763d39"
   dependencies:
     tslib "^1.9.3"
 
-"@esri/arcgis-rest-types@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-types/-/arcgis-rest-types-2.0.0.tgz#02eae051f117a12a99d31e4e680823f0efde95d0"
+"@esri/arcgis-rest-types@^2.0.0", "@esri/arcgis-rest-types@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@esri/arcgis-rest-types/-/arcgis-rest-types-2.0.1.tgz#09178d05744869f48fb9f2e1021e7c0a3ef330f9"
 
 "@esri/cedar-amcharts@^1.0.0":
   version "1.0.0"
@@ -139,13 +146,10 @@
     amcharts3 "^3.21.12"
     deepmerge "^1.5.2"
 
-"@esri/cedar@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@esri/cedar/-/cedar-1.0.0.tgz#6b9cc2a86edd3fb4a1fc33b3023e8954a4bed807"
+"@esri/cedar@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@esri/cedar/-/cedar-1.0.1.tgz#33adb9d1cdfbf1e05c1d1c5fbc0bbb482f9916bb"
   dependencies:
-    "@esri/arcgis-rest-feature-layer" "^2.0.0"
-    "@esri/arcgis-rest-request" "^2.0.0"
-    "@esri/arcgis-rest-types" "^2.0.0"
     "@esri/cedar-amcharts" "^1.0.0"
 
 "@glimmer/di@^0.2.0":
