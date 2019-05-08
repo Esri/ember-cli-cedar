@@ -4,8 +4,10 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
+
+## v1.0.0
 ### Changed
-- make @esri/cedar a peer dependency & use ember-auto-import to load it
+- make @esri/cedar a peer dependency & use ember-auto-import to load it and it's dependencies
 
 ## v1.0.0-rc.2
 ### Changed

@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-cedar",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0",
   "description": "Ember addon for Esri Cedar charting library",
   "keywords": [
     "ember-addon"
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "ember build",
     "prerelease": "git add .",
-    "release": "ember release --prerelease",
+    "release": "ember release",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
     "start": "ember serve",
     "test": "ember try:each",
