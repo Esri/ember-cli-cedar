@@ -3,12 +3,13 @@ module.exports = {
   normalizeEntityName: function() {}, // no-op since we're just adding dependencies
 
   afterInstall: function() {
-    this.addPackagesToProject({
-      '@esri/arcgis-rest-auth': '^2.0.0',
-      '@esri/arcgis-rest-feature-layer': '^2.0.0',
-      '@esri/arcgis-rest-request': '^2.0.0',
-      '@esri/arcgis-rest-types': '^2.0.0',  
-      '@esri/cedar': '^1.0.1'
-    });
+    // ensure peerDependencies are installed
+    this.addPackagesToProject([
+      { name: '@esri/arcgis-rest-auth', target: '^2.0.0' },
+      { name: '@esri/arcgis-rest-feature-layer', target: '^2.0.0' },
+      { name: '@esri/arcgis-rest-request', target: '^2.0.0' },
+      { name: '@esri/arcgis-rest-types', target: '^2.0.0' },
+      { name: '@esri/cedar', target: '^1.0.1' }
+    ]);
   }
 };
