@@ -1,5 +1,4 @@
 import { scheduleOnce, later } from '@ember/runloop';
-import { tryInvoke } from '@ember/utils';
 import Component from '@ember/component';
 import { Chart } from '@esri/cedar';
 import { Promise } from 'rsvp';
@@ -85,8 +84,12 @@ export default Component.extend({
       if (this.get('isDestroyed') || this.get('isDestroying')) {
         return;
       }
+      // call update start action (if any)
+      const onUpdateStart = this.onUpdateStart;
+      if (typeof onUpdateStart === 'function') {
+        this.onUpdateStart()
+      }
       // query the data and show the chart
-      tryInvoke(this, 'onUpdateStart');
       const timeout = this.get('timeout');
       let queryPromise;
       if (timeout) {
@@ -101,7 +104,7 @@ export default Component.extend({
           return;
         }
         const transform = this.get('transform');
-        if (transform) {
+        if (typeof transform === 'function') {
           // call transform closure action on each response
           for (const datasetName in response) {
             if (response.hasOwnProperty(datasetName)) {
@@ -112,8 +115,11 @@ export default Component.extend({
         }
         // render the chart
         this.chart.updateData(response).render();
-        tryInvoke(this, 'onUpdateEnd');
-        return this.chart;
+        // call update end action (if any)
+        const onUpdateEnd = this.onUpdateEnd;
+        if (typeof onUpdateEnd === 'function') {
+          onUpdateEnd(this.chart);
+        }
       });
     }).catch(err => {
       // an error occurred while loading dependencies
