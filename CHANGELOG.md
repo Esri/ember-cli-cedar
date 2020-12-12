@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - fixed syntax of `addPackagesToProject()` in default blueprint
 
 ## v1.0.0
+### Added
+- `onUpdateEnd` now passes a reference to the Cedar chart instance
+
+## v1.0.0
 ### Changed
 - make @esri/cedar a peer dependency & use ember-auto-import to load it and it's dependencies
 
