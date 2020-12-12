@@ -39,7 +39,7 @@ module('cedar-chart', 'Integration | Component | cedar chart', function (hooks) 
   });
 
   test('it queries, updates, and renders the data', async function (assert) {
-    assert.expect(4);
+    assert.expect(5);
     // stub cedar instance methods so that features are not queried
     // and non-existent AmCharts methods are not invoked
     const queryStub = this.stub(cedar.Chart.prototype, 'query').resolves({
@@ -48,7 +48,8 @@ module('cedar-chart', 'Integration | Component | cedar chart', function (hooks) 
     const renderStub = this.stub(cedar.Chart.prototype, 'render');
     const updateDataSpy = this.spy(cedar.Chart.prototype, 'updateData');
     this.set('definition', bar);
-    this.set('updateEnd', function() {
+    this.set('updateEnd', function(chart) {
+      assert.ok(chart instanceof cedar.Chart, 'it should pass the chart');
       assert.equal(queryStub.callCount, 1, 'it should have called query exactly once');
       assert.equal(updateDataSpy.callCount, 1, 'it should have called updateData exactly once');
       assert.equal(renderStub.callCount, 1, 'it should have called render exactly once');
