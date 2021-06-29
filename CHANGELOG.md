@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - fixed syntax of `addPackagesToProject()` in default blueprint
+- remove example in amcharts plugin that uses a vulnerable library for the build [111 a-e-s](https://devtopia.esri.com/WebGIS/arcgis-enterprise-sites/issues/111)
 
 ## v1.0.0
 ### Added
