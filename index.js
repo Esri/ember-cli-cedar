@@ -26,7 +26,13 @@ function getAmChartsTree (destDir) {
   // see https://github.com/Esri/ember-cli-cedar/issues/76
   // it also doesn't appear to be needed b/c
   // at runtime amCharts loads the minified version (pdfmake.min.js)
-  const exclude = ['plugins/export/libs/pdfmake/pdfmake.js'];
+  const exclude = [
+    'plugins/export/libs/pdfmake/pdfmake.js',
+    'plugins/animate/examples',
+    'plugins/dataloader/examples',
+    'plugins/export/examples',
+    'plugins/responsive/examples',
+  ];
   const amchartsTree = new Funnel(amchartsDir, {
     destDir: destDir,
     exclude: exclude
